@@ -1,0 +1,28 @@
+# Git Commands 
+alias gad='git add --all .'
+alias gag='git add . && git commit --amend --no-edit && git push -f'
+alias gbc='gdc'
+alias gca='git commit -a'
+alias gcaa='git commit -a --amend -C HEAD'
+alias gcl='git clone'
+alias gcm="git commit -m"
+alias gco='git checkout'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gdm='git diff master'
+alias gg='git lg'
+alias gpush='echo "Use gp!" && git push'
+alias gp='git push'
+alias gpf='git push -f'
+alias gpr='git pull --rebase'
+alias grc='git rebase --continue'
+
+# Ruby / Rails Commands
+alias bake='bundle exec rake'
+alias be='bundle exec'
+alias bi='bundle install -j 8'
+
+# System Aliases
+alias drop='cd ~/Dropbox'
+alias get='sudo apt-get install'
+alias aliases='vim ~/dotfiles/zsh/aliases'
