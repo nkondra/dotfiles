@@ -3,3 +3,5 @@
 	email = nathan@cerebralchaos.com
 [push]
 	default = simple
+[core]
+	excludesfile = /home/nkondra/.gitignore_global
