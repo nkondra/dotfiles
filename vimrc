@@ -26,6 +26,8 @@ call plug#begin()
   Plug 'tpope/vim-sleuth'
   Plug 'vim-ruby/vim-ruby'
   Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'christoomey/vim-tmux-navigator'
+  Plug 'christoomey/vim-tmux-runner'
 call plug#end()
 
 
@@ -84,6 +86,15 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
+
+" Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <C-a> :TmuxNavigatePrevious<cr>
 
 " ==========================================================
 "                       Ruby stuff
