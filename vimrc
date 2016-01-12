@@ -28,6 +28,7 @@ call plug#begin()
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'christoomey/vim-tmux-runner'
+  Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 
@@ -63,6 +64,8 @@ set shiftround
 set expandtab                        " Expand tabs to spaces
 set nojoinspaces                     " Use one space, not two, after punctuation.
 set splitright                       " Open new split panes to right and bottom
+set t_ZH=[3m                       " Reset italics encoding characters
+set t_ZR=[23m                      " Reset italics encoding characters
 
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
@@ -70,6 +73,8 @@ let g:html_indent_tags = 'li\|p'
 " Display extra whitespace
 set list listchars=tab:»·,trail:·,nbsp:·
 
+" Always use vertical diffs
+set diffopt+=vertical
 
 " ==========================================================
 "                   Configuration stuff
@@ -131,7 +136,8 @@ nmap k gk
 "                   Insert Mode Maps
 " ==========================================================
 imap <c-space> <c-x><c-o>       "Omnifunc map to better charaters
-
+imap jk <esc>
+imap kj <esc>
 
 
 " ==========================================================
