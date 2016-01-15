@@ -24,17 +24,26 @@ call plug#begin()
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-sleuth'
+  Plug 'tpope/vim-unimpaired'
   Plug 'vim-ruby/vim-ruby'
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'christoomey/vim-tmux-runner'
   Plug 'airblade/vim-gitgutter'
   Plug 'rstacruz/vim-closer'
+  Plug 'vim-airline/vim-airline'
+  Plug 'scrooloose/syntastic'
+ " Colorscheme Sections of the site
   Plug 'nanotech/jellybeans.vim'
   Plug 'morhetz/gruvbox'
-  Plug 'vim-airline/vim-airline'
   Plug 'altercation/vim-colors-solarized'
 call plug#end()
+
+" Use the colorscheme from plugin
+" colorscheme jellybeans
+colorscheme gruvbox
+" colorscheme solarized
+set background=dark    " Setting dark mode
 
 
 " Reset the leader to comma
@@ -78,15 +87,6 @@ let g:html_indent_tags = 'li\|p'
 " Display extra whitespace
 set list listchars=tab:»·,trail:·,nbsp:·
 
-" Always use vertical diffs
-set diffopt+=vertical
-
-" Use the colorscheme from plugin
-" colorscheme jellybeans
-colorscheme gruvbox
-" colorscheme solarized
-set background=dark    " Setting dark mode
-
 " ==========================================================
 "                   Configuration stuff
 " ==========================================================
@@ -102,15 +102,24 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
+" Powerline font symbols
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.space = "\ua0"
+
+" Syntastic recommended settings
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 1
 
 " Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
-let g:tmux_navigator_no_mappings = 1
-
-nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
-nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
-nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
-nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
-nnoremap <silent> <C-a> :TmuxNavigatePrevious<cr>
+  let g:tmux_navigator_no_mappings = 1
 
 " ==========================================================
 "                       Ruby stuff
@@ -142,17 +151,25 @@ map <Leader>v :vnew <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
 nmap j gj
 nmap k gk
 
+nmap <C-Up> [e
+nmap <C-Down> ]e
+
+nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <C-a> :TmuxNavigatePrevious<cr>
 
 " ==========================================================
 "                   Insert Mode Maps
 " ==========================================================
 imap <c-space> <c-x><c-o>       "Omnifunc map to better charaters
-imap jk <esc>
-imap kj <esc>
 
 
 " ==========================================================
 "                   Visual Mode Maps
 " ==========================================================
+vmap <C-Up> [egv
+vmap <C-Down> ]egv
 
 
