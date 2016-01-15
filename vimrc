@@ -29,6 +29,11 @@ call plug#begin()
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'christoomey/vim-tmux-runner'
   Plug 'airblade/vim-gitgutter'
+  Plug 'rstacruz/vim-closer'
+  Plug 'nanotech/jellybeans.vim'
+  Plug 'morhetz/gruvbox'
+  Plug 'vim-airline/vim-airline'
+  Plug 'altercation/vim-colors-solarized'
 call plug#end()
 
 
@@ -75,6 +80,12 @@ set list listchars=tab:»·,trail:·,nbsp:·
 
 " Always use vertical diffs
 set diffopt+=vertical
+
+" Use the colorscheme from plugin
+" colorscheme jellybeans
+colorscheme gruvbox
+" colorscheme solarized
+set background=dark    " Setting dark mode
 
 " ==========================================================
 "                   Configuration stuff
