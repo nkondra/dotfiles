@@ -33,6 +33,10 @@ call plug#begin()
   Plug 'rstacruz/vim-closer'
   Plug 'vim-airline/vim-airline'
   Plug 'scrooloose/syntastic'
+  Plug 'ervandew/supertab'
+  Plug 'Valloric/YouCompleteMe'
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
  " Colorscheme Sections of the site
   Plug 'nanotech/jellybeans.vim'
   Plug 'morhetz/gruvbox'
@@ -44,7 +48,6 @@ call plug#end()
 colorscheme gruvbox
 " colorscheme solarized
 set background=dark    " Setting dark mode
-
 
 " Reset the leader to comma
 let mapleader = ","
@@ -118,6 +121,16 @@ let g:airline_symbols.space = "\ua0"
   let g:syntastic_check_on_open = 1
   let g:syntastic_check_on_wq = 1
 
+" make YCM compatible with UltiSnips (using supertab)
+  let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+  let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+  let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+  let g:UltiSnipsExpandTrigger = "<tab>"
+  let g:UltiSnipsJumpForwardTrigger = "<tab>"
+  let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
 " Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
   let g:tmux_navigator_no_mappings = 1
 
@@ -172,4 +185,5 @@ imap <c-space> <c-x><c-o>       "Omnifunc map to better charaters
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
 
-
+" Reset the bg color to terminal for transparency
+highlight Normal ctermbg=none
