@@ -1,0 +1,8 @@
+battery () {
+  upower -i $(upower -e | grep BAT) | grep --color=never -E "^\s*percentage:\s*(.*)" | awk '{print $2}'
+}
+
+random_password() { 
+  cat /dev/urandom | tr -dc 'a-zA-Z0-9-_!@#$%^&*()_+{}|:<>?=' | fold -w 12 | head -n 4
+}
+

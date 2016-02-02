@@ -1,58 +1,55 @@
 " ===========================================================
-"                     Vim Configuration
-" ===========================================================
-
-" Load vim-plug
-if empty(glob("~/.vim/autoload/plug.vim"))
-  execute '!mkdir -p ~/.vim/autoload'
-  execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-endif
 
 " ===========================================================
 "                   Vim Plugins Vim-Plug
 "  Run: PlugInstall or PlugUpdate to get or update plugins
 " ===========================================================
 call plug#begin()
-  Plug 'tpope/vim-sensible'
+"  Plug 'tpope/vim-sensible'
+  Plug 'vim-ruby/vim-ruby'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-rbenv'
   Plug 'tpope/vim-bundler'
+  Plug 'tpope/vim-rails'
   Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-rails'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-sleuth'
   Plug 'tpope/vim-unimpaired'
-  Plug 'vim-ruby/vim-ruby'
   Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'kana/vim-textobj-user'
+  Plug 'nelstrom/vim-textobj-rubyblock'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'christoomey/vim-tmux-runner'
   Plug 'airblade/vim-gitgutter'
   Plug 'rstacruz/vim-closer'
   Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
   Plug 'scrooloose/syntastic'
   Plug 'ervandew/supertab'
   Plug 'Valloric/YouCompleteMe'
   Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
- " Colorscheme Sections of the site
-  Plug 'nanotech/jellybeans.vim'
+  " Plug 'honza/vim-snippets'
+" Colorscheme Sections of the site
+  " Plug 'nanotech/jellybeans.vim'
   Plug 'morhetz/gruvbox'
-  Plug 'altercation/vim-colors-solarized'
 call plug#end()
 
-" Use the colorscheme from plugin
-" colorscheme jellybeans
-colorscheme gruvbox
-" colorscheme solarized
-set background=dark    " Setting dark mode
+" Enable Vim's built in matching plugin
+runtime macros/matchit.vim
+
+" Color scheme specifics configurations
+  let g:gruvbox_italic=1
+  set background=dark
+  colorscheme gruvbox
+  let g:airline_powerline_fonts = 1
 
 " Reset the leader to comma
-let mapleader = ","
+  let mapleader = ","
 
-set nocompatible	" be iMproved, required
+set nocompatible      	" be iMproved, required
 syntax on               " Enable syntax highlighting
 filetype on             " Enable filetype detection
 filetype indent on      " Enable filetype-specific indenting
@@ -105,12 +102,6 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-" Powerline font symbols
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_symbols.space = "\ua0"
-
 " Syntastic recommended settings
   set statusline+=%#warningmsg#
   set statusline+=%{SyntasticStatuslineFlag()}
@@ -134,6 +125,8 @@ let g:airline_symbols.space = "\ua0"
 " Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
   let g:tmux_navigator_no_mappings = 1
 
+" For Airline to display status properly
+  set laststatus=2
 " ==========================================================
 "                       Ruby stuff
 " ==========================================================
@@ -164,8 +157,8 @@ map <Leader>v :vnew <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
 nmap j gj
 nmap k gk
 
-nmap <C-Up> [e
-nmap <C-Down> ]e
+nmap <S-Up> [e
+nmap <S-Down> ]e
 
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
@@ -176,14 +169,14 @@ nnoremap <silent> <C-a> :TmuxNavigatePrevious<cr>
 " ==========================================================
 "                   Insert Mode Maps
 " ==========================================================
-imap <c-space> <c-x><c-o>       "Omnifunc map to better charaters
+" imap <c-space> <c-x><c-o>       "Omnifunc map to better charaters
 
 
 " ==========================================================
 "                   Visual Mode Maps
 " ==========================================================
-vmap <C-Up> [egv
-vmap <C-Down> ]egv
+vmap <S-Up> [egv
+vmap <S-Down> ]egv
 
 " Reset the bg color to terminal for transparency
 highlight Normal ctermbg=none

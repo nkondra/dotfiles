@@ -1,0 +1,4 @@
+#! /bin/sh
+
+PATH=$PATH:/home/nkondra/dotfiles/bin
+bash -lc $*
