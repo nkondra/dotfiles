@@ -1,6 +1,4 @@
 " ===========================================================
-
-" ===========================================================
 "                   Vim Plugins Vim-Plug
 "  Run: PlugInstall or PlugUpdate to get or update plugins
 " ===========================================================
@@ -18,6 +16,7 @@ call plug#begin()
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-sleuth'
   Plug 'tpope/vim-unimpaired'
+  Plug 'thoughtbot/vim-rspec'
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'kana/vim-textobj-user'
   Plug 'nelstrom/vim-textobj-rubyblock'
@@ -41,13 +40,13 @@ call plug#end()
 runtime macros/matchit.vim
 
 " Color scheme specifics configurations
-  let g:gruvbox_italic=1
-  set background=dark
-  colorscheme gruvbox
-  let g:airline_powerline_fonts = 1
+let g:gruvbox_italic=1
+set background=dark
+colorscheme gruvbox
+let g:airline_powerline_fonts = 1
 
 " Reset the leader to comma
-  let mapleader = ","
+let mapleader = ","
 
 set nocompatible      	" be iMproved, required
 syntax on               " Enable syntax highlighting
@@ -103,30 +102,44 @@ if executable('ag')
 endif
 
 " Syntastic recommended settings
-  set statusline+=%#warningmsg#
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 1
-  let g:syntastic_check_on_open = 1
-  let g:syntastic_check_on_wq = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
 
 " make YCM compatible with UltiSnips (using supertab)
-  let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-  let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-  let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " better key bindings for UltiSnipsExpandTrigger
-  let g:UltiSnipsExpandTrigger = "<tab>"
-  let g:UltiSnipsJumpForwardTrigger = "<tab>"
-  let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
-  let g:tmux_navigator_no_mappings = 1
+let g:tmux_navigator_no_mappings = 1
 
 " For Airline to display status properly
-  set laststatus=2
+set laststatus=2
+
+" Custom runner for rspec to hook into dispatcher
+let g:rspec_command = "Dispatch rspec {spec}"
+
+" Fakes out Gnome-Terminal to allow keybindings alt/meta to pass through
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+
+set timeout ttimeoutlen=50
+
 " ==========================================================
 "                       Ruby stuff
 " ==========================================================
@@ -149,7 +162,13 @@ augroup END
 map <Leader>e :e <C-R>=escape(expand("%:p:h"),' ') . '/'<CR>
 map <Leader>s :split <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
 map <Leader>v :vnew <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
+map <Leader><Space> o<esc>
 
+" RSpec.vim mappings
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
 
 " ==========================================================
 "                   Normal Mode Maps
@@ -157,14 +176,18 @@ map <Leader>v :vnew <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
 nmap j gj
 nmap k gk
 
-nmap <S-Up> [e
-nmap <S-Down> ]e
+" Line Bubbling
+nmap <A-k> [e
+nmap <A-j> ]e
 
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <C-a> :TmuxNavigatePrevious<cr>
+
+"Remove all trailing whitespace by pressing F5
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " ==========================================================
 "                   Insert Mode Maps
@@ -175,8 +198,9 @@ nnoremap <silent> <C-a> :TmuxNavigatePrevious<cr>
 " ==========================================================
 "                   Visual Mode Maps
 " ==========================================================
-vmap <S-Up> [egv
-vmap <S-Down> ]egv
+" Line Bubbling
+vmap <A-k> [egv
+vmap <A-j> ]egv
 
 " Reset the bg color to terminal for transparency
 highlight Normal ctermbg=none
