@@ -95,7 +95,7 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag -Q -l --nocolor --hidden -g "" %s'
+  let g:ctrlp_user_command = 'ag -Q -l --hidden -g "" %s'
 
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
@@ -139,6 +139,15 @@ while c <= 'z'
 endw
 
 set timeout ttimeoutlen=50
+
+" Keep undo history across sessions by storing it in a file
+if has('persistent_undo')
+  silent call system('mkdir -p $HOME/.vim/undo')
+  set undofile                " Save undo's after file closes
+  set undodir=$HOME/.vim/undo " where to save undo histories
+  set undolevels=1000         " How many undos
+  set undoreload=10000        " number of lines to save for undo
+endif
 
 " ==========================================================
 "                       Ruby stuff
