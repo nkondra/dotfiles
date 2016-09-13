@@ -13,15 +13,16 @@ call plug#begin()
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
-  Plug 'tpope/vim-sleuth'
+"  Plug 'tpope/vim-sleuth'
   Plug 'tpope/vim-unimpaired'
   Plug 'tpope/vim-markdown'
+  Plug 'pangloss/vim-javascript'
+  Plug 'tpope/vim-liquid'
   Plug 'thoughtbot/vim-rspec'
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'tacahiroy/ctrlp-funky'
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-indent'
-  Plug 'kana/vim-textobj-entire'
   Plug 'nelstrom/vim-textobj-rubyblock'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'christoomey/vim-tmux-runner'
@@ -33,27 +34,43 @@ call plug#begin()
   Plug 'ervandew/supertab'
   Plug 'Valloric/YouCompleteMe'
   Plug 'SirVer/ultisnips'
+  Plug 'Raimondi/delimitMate'
   Plug 'zenbro/mirror.vim'
   Plug 'cakebaker/scss-syntax.vim', {'for': ['scss','sass']}
   Plug 'hail2u/vim-css3-syntax', {'for': ['css','scss','sass']}
   Plug 'othree/html5.vim', {'for': 'html'}
   Plug 'honza/vim-snippets'
+  Plug 'mattn/emmet-vim'
+  Plug 'nathanaelkane/vim-indent-guides'
 " Colorscheme Sections of the site
   Plug 'nanotech/jellybeans.vim'
+  Plug 'vim-scripts/Gummybears'
   Plug 'morhetz/gruvbox'
   Plug 'marciomazza/vim-brogrammer-theme'
+  Plug 'chriskempson/vim-tomorrow-theme'
   Plug 'scwood/vim-hybrid'
+  Plug 'rakr/vim-one'
+  Plug 'NLKNguyen/papercolor-theme'
 call plug#end()
 
 " Enable Vim's built in matching plugin
 runtime macros/matchit.vim
 
+" True color support for vim
+if (has("termguicolors"))
+  set termguicolors
+endif
+set background=dark
+
 " Color scheme specifics configurations
 let g:gruvbox_italic = 1
+let g:one_allow_italics = 1
 let g:jellybeans_use_term_italics = 1
+let g:gummybears_use_term_italics = 1
 let g:airline_powerline_fonts = 1
-set background=dark
-colorscheme jellybeans
+let g:airline_theme='papercolor'
+
+colorscheme PaperColor
 
 " Reset the leader to spacebar
 let mapleader = "\<Space>"
@@ -67,9 +84,11 @@ filetype plugin on      " Enable filetype-specific plugins
 " ===========================================================
 "                     Standard Settings
 " ===========================================================
-" set number                         " Show lines numbers
 set relativenumber                   " Show relative line numbers
+set number                           " Show lines numbers
 set expandtab                        " Expand tabs to spaces
+set shiftwidth=2                     " Softtabs with 2 space
+set softtabstop=2                    " Softtabs with 2 spaces
 set smarttab                         " Use shiftwidth to enter tabs
 set smartindent                      " Indent stuff
 set autoindent                       " Indent stuff
@@ -79,14 +98,14 @@ set backspace=indent,eol,start       " Allow backspacing over everything in inse
 set history=500                      " Keep 500 lines of command line history
 set ruler                            " Show the cursor position all the time
 set showcmd                          " Display incomplete commands
-set backupdir=~/.vim/backup          " Backup files stored seperate folder
-set tabstop=2                        " Softtabs with 2 spaces
-set shiftwidth=2                     " Softtabs with 2 space
+set backupdir=~/.vim/backup//        " Backup files stored seperate folder
+set directory=~/.vim/swap//          " Backup files stored seperate folder
 set shiftround
-set nojoinspaces                     " Use one space, not two, after punctuation.
+" set nojoinspaces                     " Use one space, not two, after punctuation.
 set splitright                       " Open new split panes to right and bottom
 set t_ZH=[3m                       " Reset italics encoding characters
 set t_ZR=[23m                      " Reset italics encoding characters
+set encoding=utf-8                   " The encoding displayed.
 
 set showmatch                        "automatically highlight matching braces/brackets/etc.
 set matchtime=2                      "tens of a second to show matching parenthesesi
@@ -97,10 +116,10 @@ set ignorecase                       "ignore case for searching
 set smartcase                        "do case-sensitive if there's a capital letter
 
 " Treat <li> and <p> tags like the block tags they are
-let g:html_indent_tags = 'li\|p'
+let g:html_indent_tags = 'li\|p\|img'
 
 " Display extra whitespace
-set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
+set listchars=tab:▸-,trail:•,extends:❯,precedes:❮
 set linebreak
 let &showbreak='↪ '
 
@@ -155,6 +174,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 
 " make YCM compatible with UltiSnips (using supertab)
+let g:ycm_server_python_interpreter = '/usr/bin/python'
 let g:ycm_complete_in_comments_and_strings=1
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -189,7 +209,7 @@ set timeout ttimeoutlen=50
 if has('persistent_undo')
   silent call system('mkdir -p $HOME/.vim/undo')
   set undofile                " Save undo's after file closes
-  set undodir=$HOME/.vim/undo " where to save undo histories
+  set undodir=~/.vim/undo//   " where to save undo histories
   set undolevels=1000         " How many undos
   set undoreload=10000        " number of lines to save for undo
 endif
@@ -223,6 +243,9 @@ map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 
+map <Leader>y "+y
+map <Leader>p "+p
+
 " ==========================================================
 "                   Normal Mode Maps
 " ==========================================================
@@ -234,7 +257,7 @@ nmap <A-k> [e
 nmap <A-j> ]e
 
 nnoremap <A-p> :CtrlPFunky<Cr>
-nnoremap <Leader>p :execute 'CtrlPFunky ' . expand('<cword>')<CR>
+" nnoremap <Leader>p :execute 'CtrlPFunky ' . expand('<cword>')<CR>
 
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
@@ -267,4 +290,5 @@ vmap <A-j> ]egv
 
 " Reset the bg color to terminal for transparency
 highlight Normal ctermbg=none
+highlight NonText ctermbg=none
 
