@@ -4,9 +4,10 @@
 " ===========================================================
 call plug#begin()
   Plug 'vim-ruby/vim-ruby'
+  Plug 'thoughtbot/vim-rspec'
   Plug 'tomtom/tcomment_vim'
-  Plug 'tpope/vim-rbenv'
-  Plug 'tpope/vim-bundler'
+"  Plug 'tpope/vim-rbenv'
+"  Plug 'tpope/vim-bundler'
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-endwise'
@@ -15,12 +16,14 @@ call plug#begin()
   Plug 'tpope/vim-surround'
 "  Plug 'tpope/vim-sleuth'
   Plug 'tpope/vim-unimpaired'
-  Plug 'tpope/vim-markdown'
+  Plug 'tpope/vim-markdown', {'for': 'md'}
   Plug 'pangloss/vim-javascript'
-  Plug 'tpope/vim-liquid'
-  Plug 'thoughtbot/vim-rspec'
-  Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'tacahiroy/ctrlp-funky'
+  Plug 'tpope/vim-liquid', {'for': 'liquid'}
+"  Plug 'ctrlpvim/ctrlp.vim'
+"  Plug 'tacahiroy/ctrlp-funky'
+  Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+  Plug 'junegunn/fzf.vim'
+  Plug 'mileszs/ack.vim'
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-indent'
   Plug 'nelstrom/vim-textobj-rubyblock'
@@ -33,15 +36,21 @@ call plug#begin()
   Plug 'scrooloose/syntastic'
   Plug 'ervandew/supertab'
   Plug 'Valloric/YouCompleteMe'
+  Plug 'Valloric/MatchTagAlways'
   Plug 'SirVer/ultisnips'
   Plug 'Raimondi/delimitMate'
-  Plug 'zenbro/mirror.vim'
+"  Plug 'zenbro/mirror.vim'
   Plug 'cakebaker/scss-syntax.vim', {'for': ['scss','sass']}
   Plug 'hail2u/vim-css3-syntax', {'for': ['css','scss','sass']}
-  Plug 'othree/html5.vim', {'for': 'html'}
+  Plug 'othree/html5.vim', {'for': ['html','erb']}
   Plug 'honza/vim-snippets'
   Plug 'mattn/emmet-vim'
   Plug 'nathanaelkane/vim-indent-guides'
+
+  Plug 'scrooloose/nerdtree'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+
 " Colorscheme Sections of the site
   Plug 'nanotech/jellybeans.vim'
   Plug 'vim-scripts/Gummybears'
@@ -51,18 +60,14 @@ call plug#begin()
   Plug 'scwood/vim-hybrid'
   Plug 'rakr/vim-one'
   Plug 'NLKNguyen/papercolor-theme'
+  Plug 'altercation/vim-colors-solarized'
 call plug#end()
 
 " Enable Vim's built in matching plugin
 runtime macros/matchit.vim
 
-" True color support for vim
-if (has("termguicolors"))
-  set termguicolors
-endif
-set background=dark
-
 " Color scheme specifics configurations
+set background=dark
 let g:gruvbox_italic = 1
 let g:one_allow_italics = 1
 let g:jellybeans_use_term_italics = 1
@@ -70,20 +75,24 @@ let g:gummybears_use_term_italics = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme='papercolor'
 
-colorscheme PaperColor
+colorscheme gummybears
 
-" Reset the leader to spacebar
-let mapleader = "\<Space>"
-
-set nocompatible      	" be iMproved, required
-syntax on               " Enable syntax highlighting
-filetype on             " Enable filetype detection
-filetype indent on      " Enable filetype-specific indenting
-filetype plugin on      " Enable filetype-specific plugins
 
 " ===========================================================
 "                     Standard Settings
 " ===========================================================
+"
+" Reset the leader to spacebar
+let mapleader = "\<Space>"
+
+set nocompatible                     " be iMproved, required
+syntax on                            " Enable syntax highlighting
+filetype on                          " Enable filetype detection
+filetype indent on                   " Enable filetype-specific indenting
+filetype plugin on                   " Enable filetype-specific plugins
+
+set noshowmode                       " Let airline show my mode
+set wildmenu                         " Display options for auto complete
 set relativenumber                   " Show relative line numbers
 set number                           " Show lines numbers
 set expandtab                        " Expand tabs to spaces
@@ -127,36 +136,35 @@ let &showbreak='↪ '
 "                   Configuration stuff
 " ==========================================================
 
-if executable('ack')
-  set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
-  set grepformat=%f:%l:%c:%m
-endif
-
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
   " Use Ag over Grep
-  set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+  set grepprg=ag\ --nogroup\ --column\ --smart-case\ --follow
   set grepformat=%f:%l:%c:%m
+  let g:ackprg = 'ag --vimgrep'
 
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag -Q -l --hidden -g "" %s'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
 endif
 
-let g:ctrlp_clear_cache_on_exit=1
-let g:ctrlp_max_height=40
-let g:ctrlp_show_hidden=0
-let g:ctrlp_follow_symlinks=1
-let g:ctrlp_max_files=20000
-let g:ctrlp_extensions=['funky']
-let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v[\/]\.(git|hg|svn|idea)$',
-  \ 'file': '\v\.DS_Store$'
-  \ }
+" let g:ctrlp_clear_cache_on_exit=1
+" let g:ctrlp_max_height=40
+" let g:ctrlp_show_hidden=0
+" let g:ctrlp_follow_symlinks=1
+" let g:ctrlp_max_files=20000
+" let g:ctrlp_extensions=['funky']
+" let g:ctrlp_custom_ignore = {
+"   \ 'dir': '\v[\/]\.(git|hg|svn|idea)$',
+"   \ 'file': '\v\.DS_Store$'
+"   \ }
+"
+" let g:ctrlp_funky_syntax_highlight = 1
 
-let g:ctrlp_funky_syntax_highlight = 1
+" Setting custom tag match highlighting
+let g:mta_filetypes = {
+  \ 'html' : 1,
+  \ 'xhtml' : 1,
+  \ 'xml' : 1,
+  \ 'erb' : 1,
+  \}
 
 " Syntastic recommended settings
 set statusline+=%#warningmsg#
@@ -214,6 +222,10 @@ if has('persistent_undo')
   set undoreload=10000        " number of lines to save for undo
 endif
 
+" Set spell checking on certain files types
+autocmd FileType gitcommit,markdown setlocal spell
+
+
 " ==========================================================
 "                       Ruby stuff
 " ==========================================================
@@ -256,8 +268,11 @@ nmap k gk
 nmap <A-k> [e
 nmap <A-j> ]e
 
-nnoremap <A-p> :CtrlPFunky<Cr>
+" nnoremap <A-p> :CtrlPFunky<Cr>
 " nnoremap <Leader>p :execute 'CtrlPFunky ' . expand('<cword>')<CR>
+
+nmap <C-p> :Files<Cr>
+nmap <a-p> :Ack!<Space>
 
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
@@ -274,7 +289,41 @@ nnoremap <silent> <leader>gd :Gdiff<CR>
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gl :Glog<CR>
 
+" NERDTree ------------------------------------------------------------------{{{
 
+map <C-\> :NERDTreeToggle<CR>
+autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+let NERDTreeShowHidden=0
+let g:NERDTreeWinSize=45
+let g:NERDTreeAutoDeleteBuffer=1
+
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#141e23')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#141e23')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#141e23')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#141e23')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#141e23')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#141e23')
+call NERDTreeHighlightFile('ts', 'Blue', 'none', '#6699cc', '#141e23')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#141e23')
+call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#141e23')
+
+"}}}
 " ==========================================================
 "                   Insert Mode Maps
 " ==========================================================
@@ -288,7 +337,10 @@ nnoremap <silent> <leader>gl :Glog<CR>
 vmap <A-k> [egv
 vmap <A-j> ]egv
 
+set t_Co=256
+
 " Reset the bg color to terminal for transparency
-highlight Normal ctermbg=none
-highlight NonText ctermbg=none
+highlight Normal ctermbg=NONE guibg=NONE
+highlight NonText ctermbg=NONE guibg=NONE
+highlight Comment cterm=italic gui=italic
 
