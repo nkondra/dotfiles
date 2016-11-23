@@ -3,53 +3,62 @@
 "  Run: PlugInstall or PlugUpdate to get or update plugins
 " ===========================================================
 call plug#begin()
-  Plug 'vim-ruby/vim-ruby'
-  Plug 'thoughtbot/vim-rspec'
-  Plug 'tomtom/tcomment_vim'
-"  Plug 'tpope/vim-rbenv'
-"  Plug 'tpope/vim-bundler'
-  Plug 'tpope/vim-rails'
+" System Specific
   Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-surround'
-"  Plug 'tpope/vim-sleuth'
   Plug 'tpope/vim-unimpaired'
-  Plug 'tpope/vim-markdown', {'for': 'md'}
-  Plug 'pangloss/vim-javascript'
-  Plug 'tpope/vim-liquid', {'for': 'liquid'}
-"  Plug 'ctrlpvim/ctrlp.vim'
-"  Plug 'tacahiroy/ctrlp-funky'
-  Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
-  Plug 'junegunn/fzf.vim'
-  Plug 'mileszs/ack.vim'
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-indent'
+  Plug 'rstacruz/vim-closer'
+  Plug 'Valloric/MatchTagAlways'
   Plug 'nelstrom/vim-textobj-rubyblock'
+  Plug 'terryma/vim-expand-region'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'christoomey/vim-tmux-runner'
-  Plug 'airblade/vim-gitgutter'
-  Plug 'rstacruz/vim-closer'
-  Plug 'vim-airline/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
-  Plug 'scrooloose/syntastic'
   Plug 'ervandew/supertab'
-  Plug 'Valloric/YouCompleteMe'
-  Plug 'Valloric/MatchTagAlways'
+  Plug 'scrooloose/nerdtree'
+
+" Command Specific
+  Plug 'tpope/vim-surround'
+  Plug 'AndrewRadev/splitjoin.vim'
+  Plug 'tomtom/tcomment_vim'
+  Plug 'mileszs/ack.vim'
+  Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+  Plug 'junegunn/fzf.vim'
+  Plug 'scrooloose/syntastic'
   Plug 'SirVer/ultisnips'
   Plug 'Raimondi/delimitMate'
-"  Plug 'zenbro/mirror.vim'
+  Plug 'mattn/emmet-vim'
+  " Plug 'honza/vim-snippets'
+
+" Interface Specific
+  Plug 'airblade/vim-gitgutter'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install --tern-completer --clang-completer'}
+  Plug 'nathanaelkane/vim-indent-guides'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Language Specific
+  Plug 'stanangeloff/php.vim', {'for': 'php'}
+  Plug 'tpope/vim-markdown', {'for': 'md'}
+  Plug 'tpope/vim-liquid', {'for': 'liquid'}
+" Ruby
+  Plug 'vim-ruby/vim-ruby'
+  Plug 'tpope/vim-rails'
+  Plug 'tpope/vim-bundler'
+  Plug 'thoughtbot/vim-rspec'
+" Javascript
+  Plug 'pangloss/vim-javascript'
+  Plug 'mxw/vim-jsx'
+" HTML / CSS
   Plug 'cakebaker/scss-syntax.vim', {'for': ['scss','sass']}
   Plug 'hail2u/vim-css3-syntax', {'for': ['css','scss','sass']}
   Plug 'othree/html5.vim', {'for': ['html','erb']}
-  Plug 'honza/vim-snippets'
-  Plug 'mattn/emmet-vim'
-  Plug 'nathanaelkane/vim-indent-guides'
-
-  Plug 'scrooloose/nerdtree'
-  Plug 'ryanoasis/vim-devicons'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'othree/html5-syntax.vim', {'for': ['html','erb']}
 
 " Colorscheme Sections of the site
   Plug 'nanotech/jellybeans.vim'
@@ -59,6 +68,7 @@ call plug#begin()
   Plug 'chriskempson/vim-tomorrow-theme'
   Plug 'scwood/vim-hybrid'
   Plug 'rakr/vim-one'
+  Plug 'joshdick/onedark.vim'
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'altercation/vim-colors-solarized'
 call plug#end()
@@ -73,9 +83,10 @@ let g:one_allow_italics = 1
 let g:jellybeans_use_term_italics = 1
 let g:gummybears_use_term_italics = 1
 let g:airline_powerline_fonts = 1
+let g:onedark_terminal_italics = 1
 let g:airline_theme='papercolor'
 
-colorscheme gummybears
+colorscheme onedark
 
 
 " ===========================================================
@@ -86,10 +97,10 @@ colorscheme gummybears
 let mapleader = "\<Space>"
 
 set nocompatible                     " be iMproved, required
-syntax on                            " Enable syntax highlighting
 filetype on                          " Enable filetype detection
 filetype indent on                   " Enable filetype-specific indenting
 filetype plugin on                   " Enable filetype-specific plugins
+syntax on                            " Enable syntax highlighting
 
 set noshowmode                       " Let airline show my mode
 set wildmenu                         " Display options for auto complete
@@ -132,6 +143,8 @@ set listchars=tab:▸-,trail:•,extends:❯,precedes:❮
 set linebreak
 let &showbreak='↪ '
 
+let g:jsx_ext_required = 0
+
 " ==========================================================
 "                   Configuration stuff
 " ==========================================================
@@ -145,19 +158,6 @@ if executable('ag')
 
 endif
 
-" let g:ctrlp_clear_cache_on_exit=1
-" let g:ctrlp_max_height=40
-" let g:ctrlp_show_hidden=0
-" let g:ctrlp_follow_symlinks=1
-" let g:ctrlp_max_files=20000
-" let g:ctrlp_extensions=['funky']
-" let g:ctrlp_custom_ignore = {
-"   \ 'dir': '\v[\/]\.(git|hg|svn|idea)$',
-"   \ 'file': '\v\.DS_Store$'
-"   \ }
-"
-" let g:ctrlp_funky_syntax_highlight = 1
-
 " Setting custom tag match highlighting
 let g:mta_filetypes = {
   \ 'html' : 1,
@@ -170,6 +170,8 @@ let g:mta_filetypes = {
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
+let g:syntastic_javascript_checkers = ['eslint']
 
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_style_error_symbol = '✠'
@@ -268,9 +270,6 @@ nmap k gk
 nmap <A-k> [e
 nmap <A-j> ]e
 
-" nnoremap <A-p> :CtrlPFunky<Cr>
-" nnoremap <Leader>p :execute 'CtrlPFunky ' . expand('<cword>')<CR>
-
 nmap <C-p> :Files<Cr>
 nmap <a-p> :Ack!<Space>
 
@@ -327,7 +326,7 @@ call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#141e23')
 " ==========================================================
 "                   Insert Mode Maps
 " ==========================================================
-" imap <c-space> <c-x><c-o>       "Omnifunc map to better charaters
+imap <c-space> <c-x><c-o>       "Omnifunc map to better charaters
 
 
 " ==========================================================
@@ -336,6 +335,9 @@ call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#141e23')
 " Line Bubbling
 vmap <A-k> [egv
 vmap <A-j> ]egv
+
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
 
 set t_Co=256
 
