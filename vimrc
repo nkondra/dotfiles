@@ -41,6 +41,7 @@ call plug#begin()
   Plug 'nathanaelkane/vim-indent-guides'
   Plug 'ryanoasis/vim-devicons'
   Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'majutsushi/tagbar'
 
 " Language Specific
   Plug 'stanangeloff/php.vim', {'for': 'php'}
@@ -53,7 +54,10 @@ call plug#begin()
   Plug 'thoughtbot/vim-rspec'
 " Javascript
   Plug 'pangloss/vim-javascript'
+  Plug 'othree/javascript-libraries-syntax.vim'
   Plug 'mxw/vim-jsx'
+  Plug 'helino/json'
+  Plug 'moll/vim-node'
 " HTML / CSS
   Plug 'cakebaker/scss-syntax.vim', {'for': ['scss','sass']}
   Plug 'hail2u/vim-css3-syntax', {'for': ['css','scss','sass']}
@@ -65,6 +69,7 @@ call plug#begin()
   Plug 'vim-scripts/Gummybears'
   Plug 'morhetz/gruvbox'
   Plug 'marciomazza/vim-brogrammer-theme'
+  Plug 'atweiden/vim-colors-candy'
   Plug 'chriskempson/vim-tomorrow-theme'
   Plug 'scwood/vim-hybrid'
   Plug 'rakr/vim-one'
@@ -82,9 +87,10 @@ let g:gruvbox_italic = 1
 let g:one_allow_italics = 1
 let g:jellybeans_use_term_italics = 1
 let g:gummybears_use_term_italics = 1
-let g:airline_powerline_fonts = 1
 let g:onedark_terminal_italics = 1
-let g:airline_theme='papercolor'
+let g:airline_theme='powerlineish'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
 colorscheme onedark
 
@@ -166,11 +172,13 @@ let g:mta_filetypes = {
   \ 'erb' : 1,
   \}
 
+
 " Syntastic recommended settings
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+let g:used_javascript_libs = 'underscore,jquery,react'
 let g:syntastic_javascript_checkers = ['eslint']
 
 let g:syntastic_error_symbol = '✗'
@@ -273,6 +281,9 @@ nmap <A-j> ]e
 nmap <C-p> :Files<Cr>
 nmap <a-p> :Ack!<Space>
 
+" Search and replace under the cursor
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
@@ -287,6 +298,9 @@ nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gl :Glog<CR>
+
+" Tagbar Configuration
+nmap <F8> :TagbarToggle<CR>
 
 " NERDTree ------------------------------------------------------------------{{{
 
