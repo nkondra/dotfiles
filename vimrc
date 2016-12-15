@@ -42,6 +42,7 @@ call plug#begin()
   Plug 'ryanoasis/vim-devicons'
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'majutsushi/tagbar'
+  Plug 'chrisbra/Colorizer'
 
 " Language Specific
   Plug 'stanangeloff/php.vim', {'for': 'php'}
