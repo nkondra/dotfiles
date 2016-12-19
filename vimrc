@@ -341,7 +341,7 @@ call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#141e23')
 " ==========================================================
 "                   Insert Mode Maps
 " ==========================================================
-imap <c-space> <c-x><c-o>       "Omnifunc map to better charaters
+" imap <c-space> <c-x><c-o>       "Omnifunc map to better charaters
 
 
 " ==========================================================
