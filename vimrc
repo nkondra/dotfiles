@@ -45,8 +45,9 @@ call plug#begin()
   Plug 'chrisbra/Colorizer'
 
 " Language Specific
+  Plug 'godlygeek/tabular'
+  Plug 'plasticboy/vim-markdown'
   Plug 'stanangeloff/php.vim', {'for': 'php'}
-  Plug 'tpope/vim-markdown', {'for': 'md'}
   Plug 'tpope/vim-liquid', {'for': 'liquid'}
 " Ruby
   Plug 'vim-ruby/vim-ruby'
@@ -57,7 +58,7 @@ call plug#begin()
   Plug 'pangloss/vim-javascript'
   Plug 'othree/javascript-libraries-syntax.vim'
   Plug 'mxw/vim-jsx'
-  Plug 'helino/json'
+  Plug 'helino/vim-json'
   Plug 'moll/vim-node'
 " HTML / CSS
   Plug 'cakebaker/scss-syntax.vim', {'for': ['scss','sass']}
