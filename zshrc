@@ -95,7 +95,7 @@ stty stop undef
 # source $HOME/system/dotfiles/zsh/functions
 
 # Call completion script for tmuxinator
-source ~/.tmuxinator.zsh
+# source ~/.tmuxinator.zsh
 # Include custom scripts directory
 export PATH="$PATH:$HOME/system/dotfiles/bin/"
 

@@ -10,55 +10,58 @@ call plug#begin()
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-unimpaired'
   Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-indent'
+" Plug 'kana/vim-textobj-indent'
   Plug 'rstacruz/vim-closer'
-  Plug 'Valloric/MatchTagAlways'
-  Plug 'nelstrom/vim-textobj-rubyblock'
+" Plug 'Valloric/MatchTagAlways'
   Plug 'terryma/vim-expand-region'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'christoomey/vim-tmux-runner'
-  Plug 'ervandew/supertab'
   Plug 'scrooloose/nerdtree'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Command Specific
+  Plug 'ervandew/supertab'
   Plug 'tpope/vim-surround'
-  Plug 'AndrewRadev/splitjoin.vim'
+"  Plug 'AndrewRadev/splitjoin.vim'
   Plug 'tomtom/tcomment_vim'
   Plug 'mileszs/ack.vim'
   Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
   Plug 'junegunn/fzf.vim'
-  Plug 'scrooloose/syntastic'
-  Plug 'SirVer/ultisnips'
-  Plug 'Raimondi/delimitMate'
+  Plug 'w0rp/ale'
+"  Plug 'SirVer/ultisnips'
+" Plug 'Raimondi/delimitMate'
   Plug 'mattn/emmet-vim'
-  " Plug 'honza/vim-snippets'
+  Plug 'Shougo/neocomplete'
+  Plug 'Shougo/neosnippet'
+  Plug 'Shougo/neosnippet-snippets'
 
 " Interface Specific
   Plug 'airblade/vim-gitgutter'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
-  Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install --tern-completer --clang-completer'}
-  Plug 'nathanaelkane/vim-indent-guides'
-  Plug 'ryanoasis/vim-devicons'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
-  Plug 'majutsushi/tagbar'
+"  Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install --tern-completer --clang-completer'}
+"  Plug 'nathanaelkane/vim-indent-guides'
+"  Plug 'majutsushi/tagbar'
   Plug 'chrisbra/Colorizer'
 
 " Language Specific
-  Plug 'godlygeek/tabular'
+"  Plug 'godlygeek/tabular'
   Plug 'plasticboy/vim-markdown'
   Plug 'stanangeloff/php.vim', {'for': 'php'}
   Plug 'tpope/vim-liquid', {'for': 'liquid'}
 " Ruby
+  Plug 'nelstrom/vim-textobj-rubyblock'
   Plug 'vim-ruby/vim-ruby'
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-bundler'
   Plug 'thoughtbot/vim-rspec'
+
 " Javascript
   Plug 'pangloss/vim-javascript'
   Plug 'othree/javascript-libraries-syntax.vim'
   Plug 'mxw/vim-jsx'
-  Plug 'helino/vim-json'
+"  Plug 'helino/vim-json'
   Plug 'moll/vim-node'
 " HTML / CSS
   Plug 'cakebaker/scss-syntax.vim', {'for': ['scss','sass']}
@@ -151,8 +154,6 @@ set listchars=tab:▸-,trail:•,extends:❯,precedes:❮
 set linebreak
 let &showbreak='↪ '
 
-let g:jsx_ext_required = 0
-
 " ==========================================================
 "                   Configuration stuff
 " ==========================================================
@@ -171,40 +172,72 @@ let g:mta_filetypes = {
   \ 'html' : 1,
   \ 'xhtml' : 1,
   \ 'xml' : 1,
-  \ 'erb' : 1,
+  \ 'erb' : 1
   \}
 
 
-" Syntastic recommended settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
+let g:jsx_ext_required = 0
 let g:used_javascript_libs = 'underscore,jquery,react'
-let g:syntastic_javascript_checkers = ['eslint']
 
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_style_error_symbol = '✠'
-let g:syntastic_warning_symbol = '∆'
-let g:syntastic_style_warning_symbol = '≈'
+" neocomplete {{{
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
+  let g:neocomplete#data_directory = '~/.vim/neocomplete'
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_auto_select = 1
+  let g:neocomplete#enable_smart_case = 1
+  let g:neocomplete#auto_completion_start_length = 2
 
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_server_python_interpreter = '/usr/bin/python'
-let g:ycm_complete_in_comments_and_strings=1
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
+  " increase limit for tag cache files
+  let g:neocomplete#sources#tags#cache_limit_size = 33554432 " 32MB
 
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:UltiSnipsSnippetsDir='~/.vim/snippets'
+  " always use completions from all buffers
+  if !exists('g:neocomplete#same_filetypes')
+    let g:neocomplete#same_filetypes = {}
+  endif
+  let g:neocomplete#same_filetypes._ = '_'
+
+  " enable omni-completion for Ruby and PHP
+  call neocomplete#util#set_default_dictionary(
+    \'g:neocomplete#sources#omni#input_patterns', 'ruby',
+    \'[^. *\t]\.\h\w*\|\h\w*::\w*')
+  call neocomplete#util#set_default_dictionary(
+    \'g:neocomplete#sources#omni#input_patterns', 'php',
+    \'[^. \t]->\h\w*\|\h\w*::\w*')
+
+
+  " Plugin key-mappings.
+  inoremap <expr> <C-g> neocomplete#undo_completion()
+  inoremap <expr> <C-l> neocomplete#complete_common_string()
+
+  " Recommended key-mappings.
+  " <CR>: cancel popup and insert newline.
+  inoremap <silent> <CR> <C-r>=neocomplete#smart_close_popup()<CR><CR>
+  " <TAB>: completion.
+  inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
+  " <C-h>, <BS>: close popup and delete backword char.
+  inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr> <C-y> neocomplete#close_popup()
+  inoremap <expr> <C-e> neocomplete#cancel_popup()
+
+" }}}
+
+" ALE Linter {{{
+
+  let g:ale_sign_error = '✗'
+  let g:ale_sign_warning = '⚠'
+
+  let g:ale_statusline_format = ['✗ %d', '⚠ %d', '⬥ ok']
+
+  let g:ale_echo_msg_error_str = 'Error'
+  let g:ale_echo_msg_warning_str = 'Warn'
+  let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+  set statusline+=%#warningmsg#
+  set statusline+=%{ALEGetStatusLine()}
+  set statusline+=%*
+
+" }}}
 
 " Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
 let g:tmux_navigator_no_mappings = 1
@@ -236,6 +269,11 @@ endif
 
 " Set spell checking on certain files types
 autocmd FileType gitcommit,markdown setlocal spell
+
+" Launch current file with web browser
+nnoremap <F12>f :execute ':silent !firefox % &'<CR>
+nnoremap <F12>c :execute ':silent !chromium-browser % &'<CR>
+nnoremap <F12>v :execute ':silent !vivaldi % &'<CR>
 
 
 " ==========================================================
@@ -349,15 +387,14 @@ call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#141e23')
 "                   Visual Mode Maps
 " ==========================================================
 " Line Bubbling
-vmap <A-k> [egv
-vmap <A-j> ]egv
+vnoremap <A-k> [egv
+vnoremap <A-j> ]egv
 
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 
-set t_Co=256
-
 " Reset the bg color to terminal for transparency
+set t_Co=256
 highlight Normal ctermbg=NONE guibg=NONE
 highlight NonText ctermbg=NONE guibg=NONE
 highlight Comment cterm=italic gui=italic
