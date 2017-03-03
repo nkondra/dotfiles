@@ -24,7 +24,7 @@ set splitbelow                       " Open new split panes to bottom
 set showcmd                          " Display incomplete commands
 set noshowmode                       " Let airline show my mode
 set ruler                            " Show the cursor position all the time
-set cursorline                       " Highlight the line the cursor is on
+"set cursorline                       " Highlight the line the cursor is on
 
 " Default Tab and indenting rules
 set shiftround                       " round indenting to increments of shiftwidth
@@ -105,101 +105,45 @@ if has('persistent_undo')
   set undoreload=10000        " number of lines to save for undo
 endif
 
-" }}}
-
-call plug#begin()
-" System Specific
-  Plug 'tpope/vim-dispatch'
-  Plug 'tpope/vim-endwise'
-  Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-unimpaired'
-  Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-indent'
-  Plug 'Valloric/MatchTagAlways'
-  Plug 'terryma/vim-expand-region'
-  Plug 'christoomey/vim-tmux-navigator'
-  Plug 'christoomey/vim-tmux-runner'
-  Plug 'scrooloose/nerdtree'
-  Plug 'ryanoasis/vim-devicons'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
-
-" Command Specific
-  Plug 'tpope/vim-surround'
-  Plug 'tomtom/tcomment_vim'
-  Plug 'mileszs/ack.vim'
-  Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
-  Plug 'junegunn/fzf.vim'
-  Plug 'w0rp/ale'
-"  Plug 'SirVer/ultisnips'
-  Plug 'Raimondi/delimitMate'
-  Plug 'mattn/emmet-vim'
-"  Plug 'Shougo/neocomplete'
-"  Plug 'Shougo/neosnippet'
-"  Plug 'Shougo/neosnippet-snippets'
-
-" Interface Specific
-  Plug 'airblade/vim-gitgutter'
-  Plug 'vim-airline/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
-"  Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install --tern-completer --clang-completer'}
-"  Plug 'nathanaelkane/vim-indent-guides'
-"  Plug 'majutsushi/tagbar'
-  Plug 'ap/vim-css-color'
-
-" Language Specific
-"  Plug 'godlygeek/tabular'
-  Plug 'plasticboy/vim-markdown'
-  Plug 'stanangeloff/php.vim', {'for': 'php'}
-  Plug 'tpope/vim-liquid', {'for': 'liquid'}
-" Ruby
-  Plug 'nelstrom/vim-textobj-rubyblock'
-  Plug 'vim-ruby/vim-ruby'
-  Plug 'tpope/vim-rails'
-  Plug 'tpope/vim-bundler'
-  Plug 'thoughtbot/vim-rspec'
-
-" Javascript
-  Plug 'pangloss/vim-javascript'
-  Plug 'othree/javascript-libraries-syntax.vim'
-  Plug 'mxw/vim-jsx'
-  Plug 'moll/vim-node'
-  Plug 'othree/jspc.vim'
-" HTML / CSS
-  Plug 'cakebaker/scss-syntax.vim', {'for': ['scss','sass']}
-  Plug 'hail2u/vim-css3-syntax', {'for': ['css','scss','sass']}
-  Plug 'othree/html5.vim', {'for': ['html','erb']}
-  Plug 'othree/html5-syntax.vim', {'for': ['html','erb']}
-
-" Colorscheme Sections of the site
-  Plug 'nanotech/jellybeans.vim'
-  Plug 'vim-scripts/Gummybears'
-  Plug 'morhetz/gruvbox'
-  Plug 'marciomazza/vim-brogrammer-theme'
-  Plug 'chriskempson/vim-tomorrow-theme'
-  Plug 'scwood/vim-hybrid'
-  Plug 'rakr/vim-one'
-  Plug 'joshdick/onedark.vim'
-  Plug 'NLKNguyen/papercolor-theme'
-  Plug 'davb5/wombat256dave'
-call plug#end()
+" Load up all of our plugins
+if filereadable(expand("~/.vim.plug"))
+  source ~/.vim.plug
+endif
 
 " Enable Vim's built in matching plugin
-runtime macros/matchit.vim
+" runtime macros/matchit.vim
 
-" Color scheme specifics configurations
-set background=dark
-let g:gruvbox_italic = 1
-let g:one_allow_italics = 1
-let g:jellybeans_use_term_italics = 1
-let g:gummybears_use_term_italics = 1
-let g:onedark_terminal_italics = 1
-let g:airline_theme='powerlineish'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+"HTML Editing
+set matchpairs+=<:>
 
-colorscheme wombat256dave
+" Treat <li> and <p> tags like the block tags they are
+let g:html_indent_tags = 'li\|p'
 
+" For Airline to display status properly
+set laststatus=2
+
+" Setting custom tag match highlighting
+let g:mta_filetypes = {
+  \ 'html' : 1,
+  \ 'xhtml' : 1,
+  \ 'xml' : 1,
+  \ 'erb' : 1
+  \}
+
+let g:jsx_ext_required = 0
+let g:used_javascript_libs = 'underscore,jquery,react'
+
+" Fakes out Gnome-Terminal to allow keybindings alt/meta to pass through
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+
+set timeout ttimeoutlen=50
+
+" }}}
 
 " ==========================================================
 "                   Configuration stuff
@@ -214,104 +158,23 @@ if executable('ag')
 
 endif
 
-" Setting custom tag match highlighting
-let g:mta_filetypes = {
-  \ 'html' : 1,
-  \ 'xhtml' : 1,
-  \ 'xml' : 1,
-  \ 'erb' : 1
-  \}
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
+"Map Ctrl + S to save in any mode
+noremap <silent> <C-S>          :update<CR>
+vnoremap <silent> <C-S>         <C-C>:update<CR>
+inoremap <silent> <C-S>         <C-O>:update<CR>
 
-let g:jsx_ext_required = 0
-let g:used_javascript_libs = 'underscore,jquery,react'
+" Quickly close windows
+nnoremap <leader>x :x<cr>
+nnoremap <leader>X :q!<cr>
 
-" neocomplete {{{
-
-  " let g:neocomplete#data_directory = '~/.vim/neocomplete'
-  " let g:neocomplete#enable_at_startup = 1
-  " let g:neocomplete#enable_auto_select = 1
-  " let g:neocomplete#enable_smart_case = 1
-  " let g:neocomplete#auto_completion_start_length = 2
-  "
-  " " increase limit for tag cache files
-  " let g:neocomplete#sources#tags#cache_limit_size = 33554432 " 32MB
-  "
-  " " always use completions from all buffers
-  " if !exists('g:neocomplete#same_filetypes')
-  "   let g:neocomplete#same_filetypes = {}
-  " endif
-  " let g:neocomplete#same_filetypes._ = '_'
-  "
-  " " enable omni-completion for Ruby and PHP
-  " call neocomplete#util#set_default_dictionary(
-  "   \'g:neocomplete#sources#omni#input_patterns', 'ruby',
-  "   \'[^. *\t]\.\h\w*\|\h\w*::\w*')
-  " call neocomplete#util#set_default_dictionary(
-  "   \'g:neocomplete#sources#omni#input_patterns', 'php',
-  "   \'[^. \t]->\h\w*\|\h\w*::\w*')
-  "
-  "
-  " " Plugin key-mappings.
-  " inoremap <expr> <C-g> neocomplete#undo_completion()
-  " inoremap <expr> <C-l> neocomplete#complete_common_string()
-  "
-  " " Recommended key-mappings.
-  " " <CR>: cancel popup and insert newline.
-  " inoremap <silent> <CR> <C-r>=neocomplete#smart_close_popup()<CR><CR>
-  " " <TAB>: completion.
-  " inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
-  " " <C-h>, <BS>: close popup and delete backword char.
-  " inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
-  " inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
-  " inoremap <expr> <C-y> neocomplete#close_popup()
-  " inoremap <expr> <C-e> neocomplete#cancel_popup()
-  "
-" }}}
-
-" ALE Linter {{{
-
-  let g:ale_sign_error = '✗'
-  let g:ale_sign_warning = '⚠'
-
-  let g:ale_statusline_format = ['✗ %d', '⚠ %d', '⬥ ok']
-
-  let g:ale_echo_msg_error_str = 'Error'
-  let g:ale_echo_msg_warning_str = 'Warn'
-  let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-
-  set statusline+=%#warningmsg#
-  set statusline+=%{ALEGetStatusLine()}
-  set statusline+=%*
-
-  let g:ale_javascript_jshint_executable = 'jshint esversion:6'
-
-" }}}
-
-" Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
-let g:tmux_navigator_no_mappings = 1
-
-" For Airline to display status properly
-set laststatus=2
-
-" Custom runner for rspec to hook into dispatcher
-let g:rspec_command = "Dispatch rspec {spec}"
-
-" Fakes out Gnome-Terminal to allow keybindings alt/meta to pass through
-let c='a'
-while c <= 'z'
-  exec "set <A-".c.">=\e".c
-  exec "imap \e".c." <A-".c.">"
-  let c = nr2char(1+char2nr(c))
-endw
-
-set timeout ttimeoutlen=50
-
-" Set spell checking on certain files types
-autocmd FileType gitcommit,markdown setlocal spell
-
-" Fix the color syncing in vim8
-autocmd BufEnter * :syntax sync fromstart
+" resize panes
+nnoremap <silent> <Right> :vertical resize +5<cr>
+nnoremap <silent> <Left> :vertical resize -5<cr>
+nnoremap <silent> <Up> :resize +5<cr>
+nnoremap <silent> <Down> :resize -5<cr>
 
 " Launch current file with web browser
 function StartFirefox()
@@ -330,23 +193,11 @@ nnoremap <F12>f :execute ':call StartFirefox()' <CR>
 nnoremap <F12>c :execute ':call StartChrome()' <CR>
 nnoremap <F12>v :execute ':call StartFirefox()' <CR>
 
-" ==========================================================
-"                       Ruby stuff
-" ==========================================================
-
-augroup myfiletypes
-  " autoindent with two spaces, always expand tabs
-  autocmd FileType ruby,eruby,yaml setlocal ai sw=2 sts=2 et
-  autocmd FileType ruby,eruby,yaml setlocal path+=lib
-
-  " Make ?s part of words
-  autocmd FileType ruby,eruby,yaml setlocal iskeyword+=?
-
-augroup END
 
 " ==========================================================
 "                  Generic Leader Maps
 " ==========================================================
+
 " Edit another file in the same directory as the current file
 map <Leader>e :e <C-R>=escape(expand("%:p:h"),' ') . '/'<CR>
 map <Leader>s :split <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
@@ -354,17 +205,15 @@ map <Leader>v :vnew <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
 map <Leader><Space> o<esc>
 
 " RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+" map <Leader>t :call RunCurrentSpecFile()<CR>
+" map <Leader>s :call RunNearestSpec()<CR>
+" map <Leader>l :call RunLastSpec()<CR>
+" map <Leader>a :call RunAllSpecs()<CR>
 
 map <Leader>y "+y
 map <Leader>p "+p
 
-" ==========================================================
-"                   Normal Mode Maps
-" ==========================================================
+" Provide a more sane way to navigate with standard keys
 nmap j gj
 nmap k gk
 
@@ -372,6 +221,7 @@ nmap k gk
 nmap <A-k> [e
 nmap <A-j> ]e
 
+" Set Hotkeys for FZF and AG for searching files
 nmap <C-p> :Files<Cr>
 nmap <a-p> :Ack!<Space>
 
@@ -396,41 +246,79 @@ nnoremap <silent> <leader>gl :Glog<CR>
 " Tagbar Configuration
 nmap <F8> :TagbarToggle<CR>
 
-" NERDTree {{{
 
-  map <C-\> :NERDTreeToggle<CR>
-  autocmd StdinReadPre * let s:std_in=1
-  " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-  let NERDTreeShowHidden=0
-  let g:NERDTreeWinSize=45
-  let g:NERDTreeAutoDeleteBuffer=1
+" ==========================================================
+"                 AUTOCOMMANDS - Do stuff
+" ==========================================================
 
-  function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-  exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-  exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-  endfunction
+" Fix the color syncing in vim8
+autocmd BufEnter * :syntax sync fromstart
 
-  call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#141e23')
-  call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#141e23')
-  call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#141e23')
-  call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#141e23')
-  call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#141e23')
-  call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#141e23')
-  call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#141e23')
-  call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#141e23')
-  call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#141e23')
-  call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#141e23')
-  call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#141e23')
-  call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#141e23')
-  call NERDTreeHighlightFile('ts', 'Blue', 'none', '#6699cc', '#141e23')
-  call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#141e23')
-  call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#141e23')
-  call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#141e23')
-  call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#141e23')
-  call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#141e23')
-  call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#141e23')
+" Close vim if only NERDTree is open
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-"}}}
+augroup myfiletypes
+  " autoindent with two spaces, always expand tabs
+  autocmd FileType ruby,eruby,yaml setlocal ai sw=2 sts=2 et
+  autocmd FileType ruby,eruby,yaml setlocal path+=lib
+
+  " Make ?s part of words
+  autocmd FileType ruby,eruby,yaml setlocal iskeyword+=?
+
+  " Set spell checking on certain files types
+  autocmd FileType gitcommit,markdown setlocal spell
+
+augroup END
+
+" automatically rebalance windows on vim resize
+autocmd VimResized * :wincmd =
+
+augroup omnifuncs
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup end
+
+" tern
+if exists('g:plugs["tern_for_vim"]')
+  let g:tern_show_argument_hints = 'on_hold'
+  let g:tern_show_signature_in_pum = 1
+  let g:tern_map_keys = 1
+
+  autocmd FileType javascript setlocal omnifunc=tern#Complete
+endif
+
+augroup vimrcEx
+  autocmd!
+
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it for commit messages, when the position is invalid, or when
+  " inside an event handler (happens when dropping a file on gvim).
+  autocmd BufReadPost *
+    \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+
+  " Set syntax highlighting for specific file types
+  autocmd BufRead,BufNewFile *.md set filetype=markdown
+  autocmd BufRead,BufNewFile *.plug set filetype=vim
+
+  " autocmd BufRead *.jsx set ft=jsx.html
+  " autocmd BufNewFile *.jsx set ft=jsx.html
+
+  " Automatically wrap at 100 characters for Markdown
+  autocmd BufRead,BufNewFile *.md setlocal textwidth=100
+
+  " Automatically wrap at 100 characters and spell check git commit messages
+  autocmd FileType gitcommit setlocal textwidth=100
+  autocmd FileType gitcommit setlocal spell
+
+  " Allow stylesheets to autocomplete hyphenated words
+  autocmd FileType css,scss,sass,less setlocal iskeyword+=-
+augroup END
+
 
 " ==========================================================
 "                   Visual Mode Maps
@@ -447,5 +335,5 @@ set t_Co=256
 highlight Normal ctermbg=NONE guibg=NONE
 highlight NonText ctermbg=NONE guibg=NONE
 highlight Comment cterm=italic gui=italic
-syntax sync fromstart                " Ensure source highlighting is correct
+
 
