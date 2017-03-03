@@ -1,0 +1,5 @@
+pane	events	1	:vim	0	:-	1	:/home/nkondra/projects/prag_studio/events	1	vim	:vim
+pane	events	2	:puma	1	:*	1	:/home/nkondra/projects/prag_studio/events	1	puma	:puma 3.7.1 (tcp://localhost:3000) [events]
+window	events	1	0	:-	ccfd,120x39,0,0,0
+window	events	2	1	:*	ccfe,120x39,0,0,1
+state	events	
