@@ -91,8 +91,8 @@ stty start undef
 stty stop undef
 
 # Load functions and aliases files seperately
-# source $HOME/system/dotfiles/zsh/aliases
-# source $HOME/system/dotfiles/zsh/functions
+source $HOME/system/dotfiles/zsh/aliases
+source $HOME/system/dotfiles/zsh/functions
 
 # Call completion script for tmuxinator
 # source ~/.tmuxinator.zsh

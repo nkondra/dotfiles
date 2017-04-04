@@ -1,3 +1,0 @@
-pane	events	1	:vim	1	:*	1	:/home/nkondra/projects/prag_studio/events	1	vim	:vim
-window	events	1	1	:*	ccfd,120x39,0,0,0
-state	events	

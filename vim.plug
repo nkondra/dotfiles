@@ -3,7 +3,9 @@
 call plug#begin()
 " System Specific
   Plug 'tpope/vim-dispatch'
+  Plug 'jgdavey/tslime.vim'
   Plug 'tpope/vim-endwise'
+  Plug 'tpope/vim-obsession'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-unimpaired'
@@ -13,6 +15,7 @@ call plug#begin()
   Plug 'terryma/vim-expand-region'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'christoomey/vim-tmux-runner'
+  Plug 'kien/rainbow_parentheses.vim'
   Plug 'scrooloose/nerdtree'
   Plug 'ryanoasis/vim-devicons'
   Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -26,12 +29,13 @@ call plug#begin()
   Plug 'w0rp/ale'
   Plug 'Raimondi/delimitMate'
   Plug 'mattn/emmet-vim'
+  Plug 'AndrewRadev/splitjoin.vim'
 "  Plug 'Shougo/neocomplete'
 "  Plug 'Shougo/neosnippet'
 "  Plug 'Shougo/neosnippet-snippets'
   Plug 'SirVer/ultisnips'
   Plug 'ervandew/supertab'
-  Plug 'Valloric/YouCompleteMe', {'do': './install.py'}
+  Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install --tern-completer --clang-completer'}
   Plug 'justinj/vim-react-snippets'
   Plug 'honza/vim-snippets'
   Plug 'ternjs/tern_for_vim', {'do': 'sudo npm -g install'}
@@ -40,11 +44,11 @@ call plug#begin()
   Plug 'airblade/vim-gitgutter'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
-"  Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install --tern-completer --clang-completer'}
 "  Plug 'nathanaelkane/vim-indent-guides'
-"  Plug 'majutsushi/tagbar'
+  Plug 'majutsushi/tagbar'
   Plug 'ap/vim-css-color'
   Plug 'vimwiki/vimwiki'
+  Plug 'sheerun/vim-polyglot'
 
 " Language Specific
 "  Plug 'godlygeek/tabular'
@@ -85,6 +89,7 @@ call plug#begin()
   Plug 'joshdick/onedark.vim'
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'davb5/wombat256dave'
+  Plug 'tomasiser/vim-code-dark'
 call plug#end()
 
 
@@ -96,18 +101,32 @@ let g:one_allow_italics = 1
 let g:jellybeans_use_term_italics = 1
 let g:gummybears_use_term_italics = 1
 let g:onedark_terminal_italics = 1
-let g:airline_theme='powerlineish'
+let g:airline_theme='codedark'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
-colorscheme solarized
+colorscheme onedark
 
 " Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
 let g:tmux_navigator_no_mappings = 1
 
 " Custom runner for rspec to hook into dispatcher
-let g:rspec_command = "Dispatch rspec {spec}"
+" let g:rspec_command = "Dispatch bundle exec rspec {spec}"
+let g:rspec_command = 'call Send_to_Tmux("rspec -f d {spec}\n")'
 
+" Setting custom tag match highlighting
+let g:mta_filetypes = {
+  \ 'html' : 1,
+  \ 'xhtml' : 1,
+  \ 'xml' : 1,
+  \ 'eruby' : 1
+  \}
+
+" Always have rainbow parens on
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 " NERDTree {{{
 
@@ -203,7 +222,7 @@ let g:rspec_command = "Dispatch rspec {spec}"
   set statusline+=%{ALEGetStatusLine()}
   set statusline+=%*
 
-  let g:ale_javascript_jshint_executable = 'jshint esversion:6'
+  " let g:ale_javascript_jshint_executable = 'jshint esversion:6'
 
 " }}}
 

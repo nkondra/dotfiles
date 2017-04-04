@@ -25,4 +25,7 @@ alias bi='bundle install -j 8'
 # System Aliases
 alias drop='cd ~/Dropbox'
 alias get='sudo apt-get install'
-alias aliases='vim ~/dotfiles/zsh/aliases'
+alias aliases='vim ~/system/dotfiles/zsh/aliases'
+
+# Edit system files
+alias vivi='vim ~/.vimrc'

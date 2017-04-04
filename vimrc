@@ -54,7 +54,7 @@ set wrapscan                         " searches wrap to start of document
 
 " Display extra whitespace
 set backspace=indent,eol,start       " Allow backspacing over everything in insert mode
-set listchars=tab:-▸,trail:•,extends:❯,precedes:❮
+set listchars=tab:▸_,trail:•,extends:❯,precedes:❮
 set linebreak
 let &showbreak='↪ '
 
@@ -111,24 +111,16 @@ if filereadable(expand("~/.vim.plug"))
 endif
 
 " Enable Vim's built in matching plugin
-" runtime macros/matchit.vim
+runtime macros/matchit.vim
 
 "HTML Editing
-set matchpairs+=<:>
+" set matchpairs+=<:>
 
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
 " For Airline to display status properly
 set laststatus=2
-
-" Setting custom tag match highlighting
-let g:mta_filetypes = {
-  \ 'html' : 1,
-  \ 'xhtml' : 1,
-  \ 'xml' : 1,
-  \ 'erb' : 1
-  \}
 
 let g:jsx_ext_required = 0
 let g:used_javascript_libs = 'underscore,jquery,react'
@@ -160,11 +152,6 @@ endif
 
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-
-"Map Ctrl + S to save in any mode
-noremap <silent> <C-S>          :update<CR>
-vnoremap <silent> <C-S>         <C-C>:update<CR>
-inoremap <silent> <C-S>         <C-O>:update<CR>
 
 " Quickly close windows
 nnoremap <leader>x :x<cr>
@@ -200,15 +187,15 @@ nnoremap <F12>v :execute ':call StartFirefox()' <CR>
 
 " Edit another file in the same directory as the current file
 map <Leader>e :e <C-R>=escape(expand("%:p:h"),' ') . '/'<CR>
-map <Leader>s :split <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
+" map <Leader>s :split <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
 map <Leader>v :vnew <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
 map <Leader><Space> o<esc>
 
 " RSpec.vim mappings
-" map <Leader>t :call RunCurrentSpecFile()<CR>
-" map <Leader>s :call RunNearestSpec()<CR>
-" map <Leader>l :call RunLastSpec()<CR>
-" map <Leader>a :call RunAllSpecs()<CR>
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
 
 map <Leader>y "+y
 map <Leader>p "+p
@@ -226,7 +213,7 @@ nmap <C-p> :Files<Cr>
 nmap <a-p> :Ack!<Space>
 
 " Search and replace under the cursor
-nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+" nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
@@ -335,5 +322,3 @@ set t_Co=256
 highlight Normal ctermbg=NONE guibg=NONE
 highlight NonText ctermbg=NONE guibg=NONE
 highlight Comment cterm=italic gui=italic
-
-
