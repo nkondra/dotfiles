@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/nkondra/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -53,7 +53,7 @@ plugins=(gitfast github git-extras git_remote_branch taskwarrior rails ruby bund
 
 # User configuration
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -110,6 +110,9 @@ export FZF_DEFAULT_COMMAND='ag --hidden -g  ""'
 if [[ -r /usr/share/powerline/bindings/zsh/powerline.zsh ]]; then
   source /usr/share/powerline/bindings/zsh/powerline.zsh
 fi
+
+# Make sure the capslock key is changed
+xmodmap ~/.Xmodmap
 
 # Report on current tasks
 task
