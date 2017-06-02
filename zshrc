@@ -114,5 +114,3 @@ fi
 # Make sure the capslock key is changed
 xmodmap ~/.Xmodmap
 
-# Report on current tasks
-task

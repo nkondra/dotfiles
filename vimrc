@@ -24,7 +24,7 @@ set splitbelow                       " Open new split panes to bottom
 set showcmd                          " Display incomplete commands
 set noshowmode                       " Let airline show my mode
 set ruler                            " Show the cursor position all the time
-"set cursorline                       " Highlight the line the cursor is on
+set cursorline                       " Highlight the line the cursor is on
 
 " Default Tab and indenting rules
 set shiftround                       " round indenting to increments of shiftwidth
@@ -155,7 +155,9 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Quickly close windows
 nnoremap <leader>x :x<cr>
-nnoremap <leader>X :q!<cr>
+
+" Loose window list to write
+command W w
 
 " resize panes
 nnoremap <silent> <Right> :vertical resize +5<cr>
@@ -269,13 +271,13 @@ augroup omnifuncs
 augroup end
 
 " tern
-if exists('g:plugs["tern_for_vim"]')
-  let g:tern_show_argument_hints = 'on_hold'
-  let g:tern_show_signature_in_pum = 1
-  let g:tern_map_keys = 1
-
-  autocmd FileType javascript setlocal omnifunc=tern#Complete
-endif
+" if exists('g:plugs["tern_for_vim"]')
+"   let g:tern_show_argument_hints = 'on_hold'
+"   let g:tern_show_signature_in_pum = 1
+"   let g:tern_map_keys = 1
+"
+"   autocmd FileType javascript setlocal omnifunc=tern#Complete
+" endif
 
 augroup vimrcEx
   autocmd!
@@ -292,8 +294,8 @@ augroup vimrcEx
   autocmd BufRead,BufNewFile *.md set filetype=markdown
   autocmd BufRead,BufNewFile *.plug set filetype=vim
 
-  " autocmd BufRead *.jsx set ft=jsx.html
-  " autocmd BufNewFile *.jsx set ft=jsx.html
+  autocmd BufRead *.jsx set ft=jsx.html
+  autocmd BufNewFile *.jsx set ft=jsx.html
 
   " Automatically wrap at 100 characters for Markdown
   autocmd BufRead,BufNewFile *.md setlocal textwidth=100
@@ -306,6 +308,15 @@ augroup vimrcEx
   autocmd FileType css,scss,sass,less setlocal iskeyword+=-
 augroup END
 
+function! PhpSyntaxOverride()
+  hi! def link phpDocTags  phpDefine
+  hi! def link phpDocParam phpType
+endfunction
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END
 
 " ==========================================================
 "                   Visual Mode Maps
