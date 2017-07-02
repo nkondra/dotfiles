@@ -8,9 +8,17 @@ call plug#begin()
   Plug 'tpope/vim-obsession'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-unimpaired'
-  Plug 'kana/vim-textobj-user'
-  Plug 'kana/vim-textobj-indent'
+  Plug 'tpope/vim-unimpaired' " - Base textobj plugin
+  Plug 'kana/vim-textobj-user' " - c for comment
+  Plug 'glts/vim-textobj-comment', { 'on': ['<Plug>(textobj-comment', ]} " - d/D for underscore section (e.g. `did` on foo_b|ar_baz -> foo__baz)
+  Plug 'machakann/vim-textobj-delimited' " - i     for indent level
+  Plug 'kana/vim-textobj-indent', { 'on': ['<Plug>(textobj-indent', ]} " - l for current line
+  Plug 'kana/vim-textobj-line', { 'on': ['<Plug>(textobj-line', ]} " - u for url
+  Plug 'mattn/vim-textobj-url', { 'on': ['<Plug>(textobj-url', ]} " - b for any block type (parens, braces, quotes, ltgt)
+  Plug 'rhysd/vim-textobj-anyblock' " - =/i=  for conflicts marked blocks
+  Plug 'rhysd/vim-textobj-conflict' " - x for xml attr like `data-content="everything"`
+  Plug 'kana/vim-textobj-function' " These rely on base textobj-function
+  Plug 'thinca/vim-textobj-function-javascript', { 'for': [ 'javascript' ] }
   Plug 'Valloric/MatchTagAlways'
   Plug 'terryma/vim-expand-region'
   Plug 'christoomey/vim-tmux-navigator'
@@ -38,16 +46,16 @@ call plug#begin()
   " Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install --tern-completer --clang-completer'}
   Plug 'justinj/vim-react-snippets'
   Plug 'honza/vim-snippets'
-  Plug 'ternjs/tern_for_vim', {'do': 'sudo npm -g install'}
 
 " Interface Specific
   Plug 'airblade/vim-gitgutter'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
 "  Plug 'nathanaelkane/vim-indent-guides'
-  Plug 'majutsushi/tagbar'
+  " Plug 'majutsushi/tagbar'
   Plug 'ap/vim-css-color'
   Plug 'vimwiki/vimwiki'
+  Plug 'suan/vim-instant-markdown'
   Plug 'sheerun/vim-polyglot'
 
 " Language Specific
@@ -56,6 +64,7 @@ call plug#begin()
   Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
   Plug 'stanangeloff/php.vim', {'for': 'php'}
   Plug 'tpope/vim-liquid', {'for': 'liquid'}
+
 " Ruby
   Plug 'nelstrom/vim-textobj-rubyblock'
   Plug 'vim-ruby/vim-ruby'
@@ -63,12 +72,21 @@ call plug#begin()
   Plug 'tpope/vim-bundler'
   Plug 'thoughtbot/vim-rspec'
 
+" Python
+  Plug 'Vimjas/vim-python-pep8-indent'
+  Plug 'raimon49/requirements.txt.vim', { 'for': 'requirements' }
+
+
 " Javascript
+  Plug 'elzr/vim-json'
   Plug 'pangloss/vim-javascript'
   Plug 'othree/javascript-libraries-syntax.vim'
   Plug 'mxw/vim-jsx'
   Plug 'moll/vim-node'
   Plug 'othree/jspc.vim'
+  Plug 'maxmellon/vim-jsx-pretty'
+  Plug 'ternjs/tern_for_vim', {'do': 'sudo npm -g install'}
+
 " HTML / CSS
   Plug 'cakebaker/scss-syntax.vim', {'for': ['scss','sass']}
   Plug 'hail2u/vim-css3-syntax', {'for': ['css','scss','sass']}
@@ -93,41 +111,6 @@ call plug#begin()
   Plug 'tomasiser/vim-code-dark'
 call plug#end()
 
-
-
-" Color scheme specifics configurations
-set background=dark
-let g:gruvbox_italic = 1
-let g:one_allow_italics = 1
-let g:jellybeans_use_term_italics = 1
-let g:gummybears_use_term_italics = 1
-let g:onedark_terminal_italics = 1
-let g:airline_theme='codedark'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-
-colorscheme onedark
-
-" Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
-let g:tmux_navigator_no_mappings = 1
-
-" Custom runner for rspec to hook into dispatcher
-" let g:rspec_command = "Dispatch bundle exec rspec {spec}"
-let g:rspec_command = 'call Send_to_Tmux("rspec -f d {spec}\n")'
-
-" Setting custom tag match highlighting
-let g:mta_filetypes = {
-  \ 'html' : 1,
-  \ 'xhtml' : 1,
-  \ 'xml' : 1,
-  \ 'eruby' : 1
-  \}
-
-" Always have rainbow parens on
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
 
 " NERDTree {{{
 
@@ -239,7 +222,9 @@ au Syntax * RainbowParenthesesLoadBraces
   let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
   let g:neocomplete#sources#omni#input_patterns.rb = '[^. *\t]\.\h\w*\|\h\w*::\w*'
 
-""" NEOsnippets
+" }}}
+
+" NEOsnippets {{{
 
   " Plugin key-mappings.
   " Note It must be 'imap' and 'smap'.  It uses <Plug> mappings.
@@ -284,18 +269,5 @@ au Syntax * RainbowParenthesesLoadBraces
   set statusline+=%#warningmsg#
   set statusline+=%{ALEGetStatusLine()}
   set statusline+=%*
-
-" }}}
-
-" Ultisnips & YouCompleteMe {{{
-  " let g:UltiSnipsExpandTrigger="<tab>"
-  " let g:UltiSnipsJumpForwardTrigger="<tab>"
-  " let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-  " let g:UltiSnipsEditSplit="vertical"
-
- " YCM compatible with UltiSnips (using supertab)
-  " let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-  " let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-  " let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " }}}

@@ -29,3 +29,13 @@ alias aliases='vim ~/system/dotfiles/zsh/aliases'
 
 # Edit system files
 alias vivi='vim ~/.vimrc'
+
+# start the wiki
+alias vw='vim ~/Dropbox/.wiki/index.md'
+
+# Python specific
+alias py='python3'
+
+# Docker Commands
+alias dm='docker-machine'
+alias dc='docker-compose'

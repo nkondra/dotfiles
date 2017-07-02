@@ -49,7 +49,7 @@ HIST_STAMPS="dd/mm/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(gitfast github git-extras git_remote_branch taskwarrior rails ruby bundler history history-substring-search urltools web-search tmux rbenv wp-cli vagrant)
+plugins=(gitfast github git-extras git_remote_branch rails ruby bundler history history-substring-search urltools web-search tmux rbenv wp-cli django docker docker-compose react-native python gulp emoji pip battery)
 
 # User configuration
 

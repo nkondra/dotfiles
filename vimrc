@@ -2,8 +2,6 @@
 "           Vim8 Configuration Nathan Kondra
 " ===========================================================
 
-" Generic Config Settings {{{
-
 " Reset the leader to spacebar
 let mapleader = "\<Space>"
 
@@ -15,6 +13,7 @@ syntax on                            " Enable syntax highlighting
 
 set relativenumber                   " Show relative line numbers
 set number                           " Show lines numbers
+set numberwidth=5                    " 
 set list                             " Highlight white space
 set linespace=3                      " Prefer a slightly higher line height
 set showmatch                        " automatically highlight matching braces/brackets/etc.
@@ -25,20 +24,43 @@ set showcmd                          " Display incomplete commands
 set noshowmode                       " Let airline show my mode
 set ruler                            " Show the cursor position all the time
 set cursorline                       " Highlight the line the cursor is on
+set scrolloff=8                      " Show number of lines off end of files
 
 " Default Tab and indenting rules
-set shiftround                       " round indenting to increments of shiftwidth
 set expandtab                        " Expand tabs to spaces
 set shiftwidth=2                     " Softtabs with 2 space
 set softtabstop=2                    " Softtabs with 2 spaces
 set smarttab                         " Use shiftwidth to enter tabs
-set smartindent                      " Indent stuff
-set autoindent                       " Indent stuff
+set backspace=indent,eol,start       " Allow backspacing over everything in insert mode
+
+
+" use multiple of shiftwidth when shifting indent levels.
+" this is OFF so block comments don't get fudged when using ">>" and "<<"
+set noshiftround
+
+" Refer also to formatoptions+=o (copy comment indent to newline)
+set nocopyindent
+
+" Try not to change the indent structure on "<<" and ">>" commands. I.e. keep
+" block comments aligned with space if there is a space there.
+set nopreserveindent
+
+" Smart detect when in braces and parens. Has annoying side effect that it
+" won't indent lines beginning with '#'. Relying on syntax indentexpr instead.
+" 'smartindent' in general is a piece of garbage, never turn it on.
+set nosmartindent
+
+" Global setting. I don't edit C-style code all the time so don't default to
+" C-style indenting.
+set nocindent
 
 " Vim backup default
 set history=500                      " Keep 500 lines of command line history
 set backupdir=~/.vim/backup//        " Backup files stored seperate folder
 set directory=~/.vim/swap//          " Backup files stored seperate folder
+set backupskip+=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
+set backupskip+=/private/tmp/*"
+set backupskip+=~/.secret/*
 
 " Extra encoding defaults
 set t_ZH=[3m                       " Reset italics encoding characters
@@ -49,12 +71,17 @@ set encoding=utf-8                   " The encoding displayed.
 set hlsearch                         " highlight searches
 set incsearch                        " incremental searching
 set ignorecase                       " ignore case for searching
-set smartcase                        " do case-sensitive if there's a capital letter
+set smartcase                        " do case-sensitive i fthere's a capital letter
 set wrapscan                         " searches wrap to start of document
 
 " Display extra whitespace
-set backspace=indent,eol,start       " Allow backspacing over everything in insert mode
-set listchars=tab:▸_,trail:•,extends:❯,precedes:❮
+set list
+set listchars=
+set listchars+=tab:→\ 
+set listchars+=trail:•
+set listchars+=extends:»              " show cut off when nowrap
+set listchars+=precedes:«
+set listchars+=nbsp:⣿
 set linebreak
 let &showbreak='↪ '
 
@@ -76,12 +103,25 @@ set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
 " -- Cache --
 set wildignore+=.sass-cache
 set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*.gem
+set wildignore+=npm-debug.log
 " -- Compiled --
 set wildignore+=*.marko.js
-set wildignore+=*.min.*
+set wildignore+=*.min.*,*-min.*
 " -- Temp/System --
 set wildignore+=*.*~,*~
 set wildignore+=*.swp,.lock,.DS_Store,._*,tags.lock
+
+" Note this is += since fillchars was defined in the window config
+set fillchars+=diff:⣿
+set diffopt=vertical                  " Use in vertical diff mode
+set diffopt+=filler                   " blank lines to keep sides aligned
+set diffopt+=iwhite                   " Ignore whitespace changes
+
+" File saving
+set fileformats=unix,mac,dos
+if !&modifiable
+  set fileformat=unix
+endif
 
 " Formatting options
 set formatoptions=
@@ -105,10 +145,52 @@ if has('persistent_undo')
   set undoreload=10000        " number of lines to save for undo
 endif
 
+" Fakes out Gnome-Terminal to allow keybindings alt/meta to pass through
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+
+" ==========================================================
+" Plugins Load
+" ==========================================================
+
 " Load up all of our plugins
 if filereadable(expand("~/.vim.plug"))
   source ~/.vim.plug
 endif
+
+" ==========================================================
+" Color scheme specifics configurations
+" ==========================================================
+
+set background=dark
+let g:onedark_terminal_italics = 1
+let g:airline_theme='codedark'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+
+" For Airline to display status properly
+set laststatus=2
+
+colorscheme onedark
+
+" Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
+let g:tmux_navigator_no_mappings = 1
+
+" Custom runner for rspec to hook into dispatcher
+" let g:rspec_command = "Dispatch bundle exec rspec {spec}"
+let g:rspec_command = 'call Send_to_Tmux("rspec -f d {spec}\n")'
+
+" Setting custom tag match highlighting
+let g:mta_filetypes = {
+  \ 'html' : 1,
+  \ 'xhtml' : 1,
+  \ 'xml' : 1,
+  \ 'eruby' : 1
+  \}
 
 " Enable Vim's built in matching plugin
 runtime macros/matchit.vim
@@ -119,23 +201,18 @@ runtime macros/matchit.vim
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
-" For Airline to display status properly
-set laststatus=2
-
 let g:jsx_ext_required = 0
 let g:used_javascript_libs = 'underscore,jquery,react'
 
-" Fakes out Gnome-Terminal to allow keybindings alt/meta to pass through
-let c='a'
-while c <= 'z'
-  exec "set <A-".c.">=\e".c
-  exec "imap \e".c." <A-".c.">"
-  let c = nr2char(1+char2nr(c))
-endw
-
 set timeout ttimeoutlen=50
 
-" }}}
+" ==========================================================
+" Filetype: python
+" ==========================================================
+
+" $VIMRUNTIME/syntax/python.vim
+let g:python_highlight_all = 1
+
 
 " ==========================================================
 "                   Configuration stuff
@@ -180,7 +257,7 @@ function StartVivaldi()
 endfunction
 nnoremap <F12>f :execute ':call StartFirefox()' <CR>
 nnoremap <F12>c :execute ':call StartChrome()' <CR>
-nnoremap <F12>v :execute ':call StartFirefox()' <CR>
+nnoremap <F12>v :execute ':call StartVivaldi()' <CR>
 
 
 " ==========================================================
@@ -201,6 +278,12 @@ map <Leader>a :call RunAllSpecs()<CR>
 
 map <Leader>y "+y
 map <Leader>p "+p
+
+let g:vimwiki_list = [{'path': '~/.wiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:instant_markdown_autostart = 0
+nmap <leader>w :VimwikiIndex<CR>
+nmap <leader>md :InstantMarkdownPreview<CR>
+
 
 " Provide a more sane way to navigate with standard keys
 nmap j gj
@@ -243,6 +326,12 @@ nmap <F8> :TagbarToggle<CR>
 " Fix the color syncing in vim8
 autocmd BufEnter * :syntax sync fromstart
 
+" Always have rainbow parens on
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
 " Close vim if only NERDTree is open
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
@@ -265,19 +354,10 @@ autocmd VimResized * :wincmd =
 augroup omnifuncs
   autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTag
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup end
-
-" tern
-" if exists('g:plugs["tern_for_vim"]')
-"   let g:tern_show_argument_hints = 'on_hold'
-"   let g:tern_show_signature_in_pum = 1
-"   let g:tern_map_keys = 1
-"
-"   autocmd FileType javascript setlocal omnifunc=tern#Complete
-" endif
 
 augroup vimrcEx
   autocmd!
