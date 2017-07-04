@@ -15,7 +15,7 @@ set relativenumber                   " Show relative line numbers
 set number                           " Show lines numbers
 set numberwidth=5                    " 
 set list                             " Highlight white space
-set linespace=3                      " Prefer a slightly higher line height
+set linespace=4                      " Prefer a slightly higher line height
 set showmatch                        " automatically highlight matching braces/brackets/etc.
 set matchtime=2                      " tens of a second to show matching parenthesesi
 set splitright                       " Open new split panes to right
@@ -24,7 +24,7 @@ set showcmd                          " Display incomplete commands
 set noshowmode                       " Let airline show my mode
 set ruler                            " Show the cursor position all the time
 set cursorline                       " Highlight the line the cursor is on
-set scrolloff=8                      " Show number of lines off end of files
+set scrolloff=10                      " Show number of lines off end of files
 
 " Default Tab and indenting rules
 set expandtab                        " Expand tabs to spaces
@@ -182,7 +182,7 @@ let g:tmux_navigator_no_mappings = 1
 
 " Custom runner for rspec to hook into dispatcher
 " let g:rspec_command = "Dispatch bundle exec rspec {spec}"
-let g:rspec_command = 'call Send_to_Tmux("rspec -f d {spec}\n")'
+" let g:rspec_command = 'call Send_to_Tmux("rspec -f d {spec}\n")'
 
 " Setting custom tag match highlighting
 let g:mta_filetypes = {
@@ -194,9 +194,6 @@ let g:mta_filetypes = {
 
 " Enable Vim's built in matching plugin
 runtime macros/matchit.vim
-
-"HTML Editing
-" set matchpairs+=<:>
 
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
@@ -266,15 +263,15 @@ nnoremap <F12>v :execute ':call StartVivaldi()' <CR>
 
 " Edit another file in the same directory as the current file
 map <Leader>e :e <C-R>=escape(expand("%:p:h"),' ') . '/'<CR>
-" map <Leader>s :split <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
+map <Leader>s :split <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
 map <Leader>v :vnew <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
 map <Leader><Space> o<esc>
 
 " RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+" map <Leader>t :call RunCurrentSpecFile()<CR>
+" map <Leader>s :call RunNearestSpec()<CR>
+" map <Leader>l :call RunLastSpec()<CR>
+" map <Leader>a :call RunAllSpecs()<CR>
 
 map <Leader>y "+y
 map <Leader>p "+p
@@ -318,6 +315,15 @@ nnoremap <silent> <leader>gl :Glog<CR>
 " Tagbar Configuration
 nmap <F8> :TagbarToggle<CR>
 
+" Python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
 
 " ==========================================================
 "                 AUTOCOMMANDS - Do stuff
@@ -352,12 +358,25 @@ augroup END
 autocmd VimResized * :wincmd =
 
 augroup omnifuncs
-  autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTag
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup end
+
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=79
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
+
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
 
 augroup vimrcEx
   autocmd!
