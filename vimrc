@@ -13,7 +13,7 @@ syntax on                            " Enable syntax highlighting
 
 set relativenumber                   " Show relative line numbers
 set number                           " Show lines numbers
-set numberwidth=5                    " 
+set numberwidth=5                    "
 set list                             " Highlight white space
 set linespace=4                      " Prefer a slightly higher line height
 set showmatch                        " automatically highlight matching braces/brackets/etc.
@@ -77,7 +77,7 @@ set wrapscan                         " searches wrap to start of document
 " Display extra whitespace
 set list
 set listchars=
-set listchars+=tab:→\ 
+set listchars+=tab:→\
 set listchars+=trail:•
 set listchars+=extends:»              " show cut off when nowrap
 set listchars+=precedes:«
@@ -258,14 +258,14 @@ nnoremap <F12>v :execute ':call StartVivaldi()' <CR>
 
 
 " Python with virtualenv support
-python3 << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
+" python3 << EOF
+" import os
+" import sys
+" if 'VIRTUAL_ENV' in os.environ:
+"   project_base_dir = os.environ['VIRTUAL_ENV']
+"   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"   execfile(activate_this, dict(__file__=activate_this))
+" EOF
 
 " ==========================================================
 "                  Generic Leader Maps
@@ -290,11 +290,6 @@ let g:vimwiki_list = [{'path': '~/.wiki/', 'syntax': 'markdown', 'ext': '.md'}]
 let g:instant_markdown_autostart = 0
 nmap <leader>w :VimwikiIndex<CR>
 nmap <leader>md :InstantMarkdownPreview<CR>
-
-" map for pulling up a definition
-let g:ycm_autoclose_preview_window_after_completion=1
-map gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
 
 " Provide a more sane way to navigate with standard keys
 nmap j gj
