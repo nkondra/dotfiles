@@ -24,7 +24,7 @@ set showcmd                          " Display incomplete commands
 set noshowmode                       " Let airline show my mode
 set ruler                            " Show the cursor position all the time
 set cursorline                       " Highlight the line the cursor is on
-set scrolloff=10                      " Show number of lines off end of files
+set scrolloff=8                     " Show number of lines off end of files
 
 " Default Tab and indenting rules
 set expandtab                        " Expand tabs to spaces
@@ -35,13 +35,11 @@ set backspace=indent,eol,start       " Allow backspacing over everything in inse
 
 
 " use multiple of shiftwidth when shifting indent levels.
-" this is OFF so block comments don't get fudged when using ">>" and "<<"
 set noshiftround
 
 " Refer also to formatoptions+=o (copy comment indent to newline)
 set nocopyindent
 
-" Try not to change the indent structure on "<<" and ">>" commands. I.e. keep
 " block comments aligned with space if there is a space there.
 set nopreserveindent
 
@@ -363,30 +361,22 @@ augroup omnifuncs
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup end
 
-au BufNewFile,BufRead *.py
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set textwidth=79
-    \ set expandtab
-    \ set autoindent
-    \ set fileformat=unix
+autocmd BufRead,BufNewFile *.py set tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
 
-au BufNewFile,BufRead *.js, *.html, *.css
-    \ set tabstop=2
-    \ set softtabstop=2
-    \ set shiftwidth=2
+autocmd BufNewFile,BufRead *.js, *.html, *.css set tabstop=2 softtabstop=2 shiftwidth=2
 
 augroup vimrcEx
   autocmd!
 
   " When editing a file, always jump to the last known cursor position.
   " Don't do it for commit messages, when the position is invalid, or when
-  " inside an event handler (happens when dropping a file on gvim).
   autocmd BufReadPost *
-    \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
+    \ if line("'\"") > 0 && line("'\"") <= line("$") && &filetype != "gitcommit" |
+    \ execute("normal `\"") |
     \ endif
+    " \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+    " \   exe "normal g`\"" |
+    " \ endif
 
   " Set syntax highlighting for specific file types
   autocmd BufRead,BufNewFile *.md set filetype=markdown

@@ -16,7 +16,7 @@ call plug#begin()
   Plug 'kana/vim-textobj-line', { 'on': ['<Plug>(textobj-line', ]} " - u for url
   Plug 'mattn/vim-textobj-url', { 'on': ['<Plug>(textobj-url', ]} " - b for any block type (parens, braces, quotes, ltgt)
   Plug 'rhysd/vim-textobj-anyblock' " - =/i=  for conflicts marked blocks
-  Plug 'rhysd/vim-textobj-conflict' " - x for xml attr like `data-content="everything"`
+  Plug 'rhysd/vim-textobj-conflict' " - x for xml attr like `data-content='everything'`
   Plug 'kana/vim-textobj-function' " These rely on base textobj-function
   Plug 'thinca/vim-textobj-function-javascript', { 'for': [ 'javascript' ] }
   Plug 'Valloric/MatchTagAlways'
@@ -121,7 +121,7 @@ call plug#end()
   " better key bindings for UltiSnipsExpandTrigger
   let g:UltiSnipsJumpForwardTrigger="<tab>"
   let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-  let g:UltiSnipsExpandTrigger="<C-,>"
+  let g:UltiSnipsExpandTrigger="<C-e>"
 
   let g:ycm_auto_trigger = 1
   let g:ycm_add_preview_to_completeopt = 0

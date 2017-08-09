@@ -94,14 +94,18 @@ stty stop undef
 source $HOME/system/dotfiles/zsh/aliases
 source $HOME/system/dotfiles/zsh/functions
 
-# Call completion script for tmuxinator
-# source ~/.tmuxinator.zsh
 # Include custom scripts directory
 export PATH="$PATH:$HOME/system/dotfiles/bin/"
 
+# Include the RBenv tool for managing Ruby versions and modules
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+
+# Include the Pyenv tool for managing Python versions and modules
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 export FZF_DEFAULT_COMMAND='ag --hidden -g  ""'
 
