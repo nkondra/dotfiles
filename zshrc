@@ -6,13 +6,31 @@ export ZSH=~/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 # ZSH_THEME="agnosterzak"
+ZSH_THEME="powerlevel9k/powerlevel9k"
+POWERLEVEL9K_MODE='nerdfont-complete'
+
+## POWERLEVEL9K SETTINGS ##
+POWERLEVEL9K_STATUS_VERBOSE=false
+POWERLEVEL9K_STATUS_OK_IN_NON_VERBOSE=true
+# POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+# POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
+# POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX="%K{white}%F{black} \UE12E `date +%T` %f%k%F{white}%f "
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context dir_writable vcs rbenv virtualenv)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status aws docker_machine load ram)
+POWERLEVEL9K_OS_ICON_BACKGROUND="white"
+POWERLEVEL9K_OS_ICON_FOREGROUND="blue"
+POWERLEVEL9K_DIR_HOME_FOREGROUND="white"
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="white"
+POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
@@ -49,7 +67,7 @@ HIST_STAMPS="dd/mm/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(gitfast github git-extras git_remote_branch rails ruby bundler history history-substring-search urltools web-search tmux rbenv wp-cli django docker docker-compose react-native python gulp emoji pip battery)
+plugins=(git github git-extras git-remote-branch rails ruby bundler history history-substring-search urltools web-search tmux rbenv django docker docker-compose python pyenv virtualenv pip)
 
 # User configuration
 
@@ -111,9 +129,9 @@ export FZF_DEFAULT_COMMAND='ag --hidden -g  ""'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-if [[ -r /usr/share/powerline/bindings/zsh/powerline.zsh ]]; then
-  source /usr/share/powerline/bindings/zsh/powerline.zsh
-fi
+# if [[ -r /usr/share/powerline/bindings/zsh/powerline.zsh ]]; then
+#   source /usr/share/powerline/bindings/zsh/powerline.zsh
+# fi
 
 # Make sure the capslock key is changed
 xmodmap ~/.Xmodmap
