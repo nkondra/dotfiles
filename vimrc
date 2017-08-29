@@ -53,6 +53,13 @@ set nosmartindent
 set nocindent
 
 " Vim backup default
+if !isdirectory('~/.vim/backup/')
+  silent call system('mkdir -p ~/.vim/backup')
+endif
+if !isdirectory('~/.vim/swap/')
+  silent call system('mkdir -p ~/.vim/swap')
+endif
+
 set history=500                      " Keep 500 lines of command line history
 set backupdir=~/.vim/backup//        " Backup files stored seperate folder
 set directory=~/.vim/swap//          " Backup files stored seperate folder
@@ -154,6 +161,11 @@ endw
 " ==========================================================
 " Plugins Load
 " ==========================================================
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
 " Load up all of our plugins
 if filereadable(expand("~/.vim.plug"))

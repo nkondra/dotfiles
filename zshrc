@@ -1,3 +1,5 @@
+# Make sure 256 is enabled
+export TERM="xterm-256color"
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
