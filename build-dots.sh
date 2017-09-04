@@ -83,13 +83,13 @@ main() {
     git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
   fi
 
-  # printf "${BLUE} Preparing to install Fonts...${NORMAL}\n"
-  # if [ -d ~/system/nerd-fonts ]; then
-  #   printf "${YELLOW}Found ~/system/nerd-fonts ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
-  # else
-  #   git clone https://github.com/ryanoasis/nerd-fonts ~/system/nerd-fonts
-  #   bash ~/system/nerd-fonts/install.sh
-  # fi
+  printf "${BLUE} Preparing to install Fonts...${NORMAL}\n"
+  if [ -d ~/system/nerd-fonts ]; then
+    printf "${YELLOW}Found ~/system/nerd-fonts ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
+  else
+    git clone https://github.com/ryanoasis/nerd-fonts ~/system/nerd-fonts
+    bash ~/system/nerd-fonts/install.sh
+  fi
 
   printf "${BLUE} Preparing to install Vim...${NORMAL}\n"
   if [ -d ~/system/vim ]; then

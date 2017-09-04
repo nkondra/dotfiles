@@ -124,6 +124,7 @@ export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
 
 # Include the Pyenv tool for managing Python versions and modules
 export PATH="$HOME/.pyenv/bin:$PATH"
+export PYTHON_CONFIGURE_OPTS="--enable-shared"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
