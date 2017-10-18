@@ -90,6 +90,13 @@ main() {
     git clone https://github.com/ryanoasis/nerd-fonts ~/system/nerd-fonts
     bash ~/system/nerd-fonts/install.sh
   fi
+  if [ -d ~/system/fonts ]; then
+    printf "${YELLOW}Found ~/system/fonts ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
+  else
+    git clone https://github.com/ryanoasis/nerd-fonts ~/system/nerd-fonts
+    git clone https://github.com/powerline/fonts.git ~/system/fonts  --depth=1
+    bash ~/system/fonts/install.sh
+  fi
 
   printf "${BLUE} Preparing to install Vim...${NORMAL}\n"
   if [ -d ~/system/vim ]; then

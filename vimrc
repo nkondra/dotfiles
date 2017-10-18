@@ -86,7 +86,7 @@ set listchars+=tab:→\
 set listchars+=trail:•
 set listchars+=extends:»              " show cut off when nowrap
 set listchars+=precedes:«
-set listchars+=nbsp:⣿
+" set listchars+=nbsp:⣿
 set linebreak
 let &showbreak='↪ '
 
@@ -117,7 +117,7 @@ set wildignore+=*.*~,*~
 set wildignore+=*.swp,.lock,.DS_Store,._*,tags.lock
 
 " Note this is += since fillchars was defined in the window config
-set fillchars+=diff:⣿
+" set fillchars+=diff:⣿
 set diffopt=vertical                  " Use in vertical diff mode
 set diffopt+=filler                   " blank lines to keep sides aligned
 set diffopt+=iwhite                   " Ignore whitespace changes
@@ -185,7 +185,7 @@ let g:airline_powerline_fonts = 1
 " For Airline to display status properly
 set laststatus=2
 
-colorscheme onedark
+colorscheme Tomorrow-Night-Eighties
 
 " Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
 let g:tmux_navigator_no_mappings = 1
@@ -198,7 +198,7 @@ let g:tmux_navigator_no_mappings = 1
 let g:mta_filetypes = {
   \ 'html' : 1,
   \ 'xhtml' : 1,
-  \ 'xml' : 1,
+  \ 'php' : 1,
   \ 'eruby' : 1
   \}
 
@@ -266,17 +266,6 @@ nnoremap <F12>f :execute ':call StartFirefox()' <CR>
 nnoremap <F12>c :execute ':call StartChrome()' <CR>
 nnoremap <F12>v :execute ':call StartVivaldi()' <CR>
 
-
-" Python with virtualenv support
-" python3 << EOF
-" import os
-" import sys
-" if 'VIRTUAL_ENV' in os.environ:
-"   project_base_dir = os.environ['VIRTUAL_ENV']
-"   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-"   execfile(activate_this, dict(__file__=activate_this))
-" EOF
-
 " ==========================================================
 "                  Generic Leader Maps
 " ==========================================================
@@ -305,13 +294,25 @@ nmap <leader>md :InstantMarkdownPreview<CR>
 nmap j gj
 nmap k gk
 
+" Buffer Jumping forward and back
+nmap gb :bn<cr>
+nmap gB :bp<cr>
+
 " Line Bubbling
-nmap <A-k> [e
-nmap <A-j> ]e
+nmap <a-k> [e
+nmap <a-j> ]e
+
+" Line Bubbling
+vnoremap <a-k> [egv
+vnoremap <a-j> ]egv
+
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
 
 " Set Hotkeys for FZF and AG for searching files
 nmap <C-p> :Files<Cr>
 nmap <a-p> :Ack!<Space>
+nmap <a-b> :Buffers
 
 " Search and replace under the cursor
 " nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
@@ -339,7 +340,7 @@ nmap <F8> :TagbarToggle<CR>
 " ==========================================================
 
 " Fix the color syncing in vim8
-autocmd BufEnter * :syntax sync fromstart
+" autocmd BufEnter * :syntax sync fromstart
 
 " Always have rainbow parens on
 au VimEnter * RainbowParenthesesToggle
@@ -349,19 +350,6 @@ au Syntax * RainbowParenthesesLoadBraces
 
 " Close vim if only NERDTree is open
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-augroup myfiletypes
-  " autoindent with two spaces, always expand tabs
-  autocmd FileType ruby,eruby,yaml setlocal ai sw=2 sts=2 et
-  autocmd FileType ruby,eruby,yaml setlocal path+=lib
-
-  " Make ?s part of words
-  autocmd FileType ruby,eruby,yaml setlocal iskeyword+=?
-
-  " Set spell checking on certain files types
-  autocmd FileType gitcommit,markdown setlocal spell
-
-augroup END
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
@@ -373,9 +361,21 @@ augroup omnifuncs
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup end
 
-autocmd BufRead,BufNewFile *.py set tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
+augroup myfiletypes
+  " autoindent with two spaces, always expand tabs
+  autocmd FileType ruby,eruby,yaml setlocal ai sw=2 sts=2 et
+  autocmd FileType ruby,eruby,yaml setlocal path+=lib
+  " Make ?s part of words
+  autocmd FileType ruby,eruby,yaml setlocal iskeyword+=?
+  " Set spell checking on certain files types
+  autocmd FileType gitcommit,markdown setlocal spell
+augroup END
 
-autocmd BufNewFile,BufRead *.js, *.html, *.css set tabstop=2 softtabstop=2 shiftwidth=2
+autocmd BufRead,BufNewFile *.py set tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
+autocmd BufRead,BufNewFile *.php set tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
+autocmd BufRead,BufNewFile *.html set tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
+autocmd BufNewFile,BufRead *.js set tabstop=2 softtabstop=2 shiftwidth=2
+autocmd BufNewFile,BufRead *.css set tabstop=2 softtabstop=2 shiftwidth=2
 
 augroup vimrcEx
   autocmd!
@@ -408,25 +408,7 @@ augroup vimrcEx
   autocmd FileType css,scss,sass,less setlocal iskeyword+=-
 augroup END
 
-function! PhpSyntaxOverride()
-  hi! def link phpDocTags  phpDefine
-  hi! def link phpDocParam phpType
-endfunction
 
-augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
-augroup END
-
-" ==========================================================
-"                   Visual Mode Maps
-" ==========================================================
-" Line Bubbling
-vnoremap <A-k> [egv
-vnoremap <A-j> ]egv
-
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
 
 " Reset the bg color to terminal for transparency
 set t_Co=256

@@ -9,17 +9,17 @@ call plug#begin()
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-unimpaired' " - Base textobj plugin
-  Plug 'kana/vim-textobj-user' " - c for comment
-  Plug 'glts/vim-textobj-comment', { 'on': ['<Plug>(textobj-comment', ]} " - d/D for underscore section (e.g. `did` on foo_b|ar_baz -> foo__baz)
-  Plug 'machakann/vim-textobj-delimited' " - i     for indent level
-  Plug 'kana/vim-textobj-indent', { 'on': ['<Plug>(textobj-indent', ]} " - l for current line
-  Plug 'kana/vim-textobj-line', { 'on': ['<Plug>(textobj-line', ]} " - u for url
-  Plug 'mattn/vim-textobj-url', { 'on': ['<Plug>(textobj-url', ]} " - b for any block type (parens, braces, quotes, ltgt)
-  Plug 'rhysd/vim-textobj-anyblock' " - =/i=  for conflicts marked blocks
-  Plug 'rhysd/vim-textobj-conflict' " - x for xml attr like `data-content='everything'`
-  Plug 'kana/vim-textobj-function' " These rely on base textobj-function
-  Plug 'thinca/vim-textobj-function-javascript', { 'for': [ 'javascript' ] }
-  Plug 'Valloric/MatchTagAlways'
+  " Plug 'kana/vim-textobj-user' " - c for comment
+  " Plug 'glts/vim-textobj-comment', { 'on': ['<Plug>(textobj-comment', ]} " - d/D for underscore section (e.g. `did` on foo_b|ar_baz -> foo__baz)
+  " Plug 'machakann/vim-textobj-delimited' " - i     for indent level
+  " Plug 'kana/vim-textobj-indent', { 'on': ['<Plug>(textobj-indent', ]} " - l for current line
+  " Plug 'kana/vim-textobj-line', { 'on': ['<Plug>(textobj-line', ]} " - u for url
+  " Plug 'mattn/vim-textobj-url', { 'on': ['<Plug>(textobj-url', ]} " - b for any block type (parens, braces, quotes, ltgt)
+  " Plug 'rhysd/vim-textobj-anyblock' " - =/i=  for conflicts marked blocks
+  " Plug 'rhysd/vim-textobj-conflict' " - x for xml attr like `data-content='everything'`
+  " Plug 'kana/vim-textobj-function' " These rely on base textobj-function
+  " Plug 'thinca/vim-textobj-function-javascript', { 'for': [ 'javascript' ] }
+  " Plug 'Valloric/MatchTagAlways'
   Plug 'terryma/vim-expand-region'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'christoomey/vim-tmux-runner'
@@ -53,29 +53,29 @@ call plug#begin()
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   Plug 'nathanaelkane/vim-indent-guides'
-  Plug 'majutsushi/tagbar'
+  " Plug 'majutsushi/tagbar'
   Plug 'ap/vim-css-color'
   Plug 'vimwiki/vimwiki'
   Plug 'suan/vim-instant-markdown'
-  Plug 'sheerun/vim-polyglot'
+  " Plug 'sheerun/vim-polyglot'
 
 " Language Specific
 "  Plug 'godlygeek/tabular'
-  Plug 'plasticboy/vim-markdown'
+  Plug 'plasticboy/vim-markdown', { 'for': ['md', 'markdown'] }
   Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
   Plug 'stanangeloff/php.vim', {'for': 'php'}
   Plug 'tpope/vim-liquid', {'for': 'liquid'}
 
 " Ruby
-  Plug 'nelstrom/vim-textobj-rubyblock'
-  Plug 'vim-ruby/vim-ruby'
-  Plug 'tpope/vim-rails'
-  Plug 'tpope/vim-bundler'
-  Plug 'thoughtbot/vim-rspec'
+  Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'rb' }
+  Plug 'vim-ruby/vim-ruby', { 'for': 'rb' }
+  Plug 'tpope/vim-rails', { 'for': 'rb' }
+  Plug 'tpope/vim-bundler', { 'for': 'rb' }
+  Plug 'thoughtbot/vim-rspec', { 'for': 'rb' }
 
 " Python
-  Plug 'Vimjas/vim-python-pep8-indent'
-  Plug 'nvie/vim-flake8'
+  Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'py' }
+  Plug 'nvie/vim-flake8', { 'for': 'py' }
   Plug 'raimon49/requirements.txt.vim', { 'for': 'requirements' }
 
 
@@ -84,16 +84,16 @@ call plug#begin()
   Plug 'pangloss/vim-javascript'
   Plug 'othree/javascript-libraries-syntax.vim'
   Plug 'mxw/vim-jsx'
-  Plug 'moll/vim-node'
+  " Plug 'moll/vim-node'
   Plug 'othree/jspc.vim'
-  Plug 'maxmellon/vim-jsx-pretty'
+  " Plug 'maxmellon/vim-jsx-pretty'
   Plug 'ternjs/tern_for_vim', {'do': 'sudo npm -g install'}
 
 " HTML / CSS
   Plug 'cakebaker/scss-syntax.vim', {'for': ['scss','sass']}
   Plug 'hail2u/vim-css3-syntax', {'for': ['css','scss','sass']}
-  Plug 'othree/html5.vim', {'for': ['html','erb']}
-  Plug 'othree/html5-syntax.vim', {'for': ['html','erb']}
+  Plug 'othree/html5.vim', {'for': ['html','erb', 'php']}
+  Plug 'othree/html5-syntax.vim', {'for': ['html','erb', 'php']}
   Plug 'vim-scripts/HTML-AutoCloseTag'
 
 
