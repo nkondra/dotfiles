@@ -1,13 +1,13 @@
 [user]
-	name = Nathan Kondra
-	email = nathan@cerebralchaos.com
+  name = Nathan Kondra
+  email = nathan@cerebralchaos.com
 [push]
-	default = simple
+  default = simple
 [core]
-	excludesfile = /home/nkondra/.gitignore_global
+  excludesfile = /home/nkondra/.gitignore_global
 [status]
-	submoduleSummary = true
+  submoduleSummary = true
 [init]
-	templatedir = ~/.git_template
+  templatedir = ~/.git_template
 [alias]
-	ctags = !.git/hooks/ctags
+  ctags = !.git/hooks/ctags

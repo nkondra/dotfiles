@@ -22,6 +22,9 @@ alias bake='bundle exec rake'
 alias be='bundle exec'
 alias bi='bundle install -j 8'
 
+# PHP Commands
+alias art='php artisan'
+
 # System Aliases
 alias drop='cd ~/Dropbox'
 alias get='sudo apt-get install'

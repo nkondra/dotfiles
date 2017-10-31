@@ -209,7 +209,7 @@ runtime macros/matchit.vim
 let g:html_indent_tags = 'li\|p'
 
 let g:jsx_ext_required = 0
-let g:used_javascript_libs = 'underscore,jquery,react'
+let g:used_javascript_libs = 'underscore,jquery,react,vue'
 
 set timeout ttimeoutlen=50
 
@@ -312,10 +312,7 @@ vmap <C-v> <Plug>(expand_region_shrink)
 " Set Hotkeys for FZF and AG for searching files
 nmap <C-p> :Files<Cr>
 nmap <a-p> :Ack!<Space>
-nmap <a-b> :Buffers
-
-" Search and replace under the cursor
-" nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+nmap <C-b> :Buffers<Cr>
 
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
@@ -334,6 +331,27 @@ nnoremap <silent> <leader>gl :Glog<CR>
 
 " Tagbar Configuration
 nmap <F8> :TagbarToggle<CR>
+
+" PHP Namespaceing for Use
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+
+function! IPhpExpandClass()
+    call PhpExpandClass()
+    call feedkeys('a', 'n')
+endfunction
+
+autocmd FileType php inoremap <Leader>pnu <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>pnu :call PhpInsertUse()<CR>
+autocmd FileType php inoremap <Leader>pne <Esc>:call IPhpExpandClass()<CR>
+autocmd FileType php noremap <Leader>pne :call PhpExpandClass()<CR>
+
+let g:php_namespace_sort_after_insert=1
+
+let g:tagbar_phpctags_bin='~/system/dotfiles/bin/phpctags'
+" let g:tagbar_phpctags_memory_limit = '512M'
 
 " ==========================================================
 "                 AUTOCOMMANDS - Do stuff
@@ -360,6 +378,13 @@ augroup omnifuncs
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup end
+
+set tags=./tags;/
+augroup TagFileType
+  autocmd!
+  autocmd FileType * setl tags<
+  autocmd FileType * exe 'setl tags+=~/.ctags/' . &filetype . '/*/tags'
+augroup END
 
 augroup myfiletypes
   " autoindent with two spaces, always expand tabs

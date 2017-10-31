@@ -111,6 +111,9 @@ chpwd() {
 stty start undef
 stty stop undef
 
+# PHP composer bin folder
+export PATH="$PATH:$HOME/.config/composer/vendor/bin/"
+
 # Load functions and aliases files seperately
 source $HOME/system/dotfiles/zsh/aliases
 source $HOME/system/dotfiles/zsh/functions
@@ -132,10 +135,6 @@ eval "$(pyenv virtualenv-init -)"
 export FZF_DEFAULT_COMMAND='ag --hidden -g  ""'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# if [[ -r /usr/share/powerline/bindings/zsh/powerline.zsh ]]; then
-#   source /usr/share/powerline/bindings/zsh/powerline.zsh
-# fi
 
 # Make sure the capslock key is changed
 xmodmap ~/.Xmodmap
