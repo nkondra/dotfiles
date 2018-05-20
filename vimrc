@@ -3,7 +3,7 @@
 " ===========================================================
 
 " Reset the leader to spacebar
-let mapleader = "\<Space>"
+let mapleader = "\\"
 
 set nocompatible                     " be iMproved, required
 filetype on                          " Enable filetype detection
@@ -178,14 +178,23 @@ endif
 
 set background=dark
 let g:onedark_terminal_italics = 1
-let g:airline_theme='codedark'
-let g:airline#extensions#tabline#enabled = 1
+
+"set airline options
+let g:airline_theme='jellybeans'
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#fnametruncate = 16
+let g:airline#extensions#tabline#fnamecollapse = 2
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 " For Airline to display status properly
 set laststatus=2
 
-colorscheme Tomorrow-Night-Eighties
+colorscheme onedark
 
 " Configurations for tmux navigator github.com/christoomey/vim-tmux-navigator
 let g:tmux_navigator_no_mappings = 1
@@ -213,6 +222,8 @@ let g:used_javascript_libs = 'underscore,jquery,react,vue'
 
 set timeout ttimeoutlen=50
 
+let g:neocomplete#enable_at_startup = 1
+
 " ==========================================================
 " Filetype: python
 " ==========================================================
@@ -238,7 +249,7 @@ endif
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Quickly close windows
-nnoremap <leader>x :x<cr>
+nnoremap <leader>x :bd<CR>
 
 " Loose window list to write
 command W w
@@ -314,6 +325,17 @@ nmap <C-p> :Files<Cr>
 nmap <a-p> :Ack!<Space>
 nmap <C-b> :Buffers<Cr>
 
+" Jumping on the buffer line through Airline
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
@@ -333,22 +355,23 @@ nnoremap <silent> <leader>gl :Glog<CR>
 nmap <F8> :TagbarToggle<CR>
 
 " PHP Namespaceing for Use
-function! IPhpInsertUse()
-    call PhpInsertUse()
-    call feedkeys('a',  'n')
-endfunction
-
-function! IPhpExpandClass()
-    call PhpExpandClass()
-    call feedkeys('a', 'n')
-endfunction
-
-autocmd FileType php inoremap <Leader>pnu <Esc>:call IPhpInsertUse()<CR>
-autocmd FileType php noremap <Leader>pnu :call PhpInsertUse()<CR>
-autocmd FileType php inoremap <Leader>pne <Esc>:call IPhpExpandClass()<CR>
-autocmd FileType php noremap <Leader>pne :call PhpExpandClass()<CR>
+" function! IPhpInsertUse()
+"     call PhpInsertUse()
+"     call feedkeys('a',  'n')
+" endfunction
+"
+" function! IPhpExpandClass()
+"     call PhpExpandClass()
+"     call feedkeys('a', 'n')
+" endfunction
+"
+" autocmd FileType php inoremap <Leader>pnu <Esc>:call IPhpInsertUse()<CR>
+" autocmd FileType php noremap <Leader>pnu :call PhpInsertUse()<CR>
+" autocmd FileType php inoremap <Leader>pne <Esc>:call IPhpExpandClass()<CR>
+" autocmd FileType php noremap <Leader>pne :call PhpExpandClass()<CR>
 
 let g:php_namespace_sort_after_insert=1
+let g:phpcomplete_index_composer_command='composer'
 
 let g:tagbar_phpctags_bin='~/system/dotfiles/bin/phpctags'
 " let g:tagbar_phpctags_memory_limit = '512M'
@@ -357,9 +380,6 @@ let g:tagbar_phpctags_bin='~/system/dotfiles/bin/phpctags'
 "                 AUTOCOMMANDS - Do stuff
 " ==========================================================
 
-" Fix the color syncing in vim8
-" autocmd BufEnter * :syntax sync fromstart
-
 " Always have rainbow parens on
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
@@ -367,24 +387,17 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 " Close vim if only NERDTree is open
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
 
-augroup omnifuncs
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTag
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup end
-
-set tags=./tags;/
-augroup TagFileType
-  autocmd!
-  autocmd FileType * setl tags<
-  autocmd FileType * exe 'setl tags+=~/.ctags/' . &filetype . '/*/tags'
-augroup END
+" set tags=./tags;/
+" augroup TagFileType
+"   autocmd!
+"   autocmd FileType * setl tags<
+"   autocmd FileType * exe 'setl tags+=~/system/dotfiles/system_tags/' . &filetype . '/*/tags'
+" augroup END
 
 augroup myfiletypes
   " autoindent with two spaces, always expand tabs

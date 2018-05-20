@@ -20,3 +20,11 @@
 .env
 .powenv
 
+# PHP projects specific
+.phpcomplete_extended/
+
+# Shopify Theme bundler
+/theme.lock
+
+# For Visual Studio Code
+.vscode

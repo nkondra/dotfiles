@@ -70,7 +70,7 @@ HIST_STAMPS="dd/mm/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git github git-extras git-remote-branch rails ruby bundler history history-substring-search urltools web-search rbenv django docker docker-compose python pyenv virtualenv pip)
+plugins=(git github git-extras git-remote-branch rails ruby bundler history history-substring-search urltools web-search rbenv django docker docker-compose python pyenv virtualenv pip wp-cli)
 
 # User configuration
 
@@ -139,3 +139,9 @@ export FZF_DEFAULT_COMMAND='ag --hidden -g  ""'
 # Make sure the capslock key is changed
 xmodmap ~/.Xmodmap
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

@@ -26,3 +26,31 @@ if [ -n "${LaravelPath}" -a -d "${LaravelPath}" ]; then
   echo "---------------------------------------------"
   echo
 fi
+
+# TODO Something to recode for rbenv
+
+
+# RubyVersion="1.9.3-p194"
+#
+# # RVM: Ruby version 1.9.3-p194
+# if [ -n "${RubyVersion}" ]; then
+#   mkdir -p "${HOME}/.ctags/ruby/${RubyVersion}"
+#   TAG_FILE="${HOME}/.ctags/ruby/${RubyVersion}/tags"
+#   rm -f "${TAG_FILE}"
+#   for rubydir in `find "${HOME}/.rvm/gems" -type d -depth 1 -iname "*${RubyVersion}*"`; do
+#     if [ -d "${rubydir}/gems" ]; then
+#       echo "Looking inside: ${rubydir}/gems"
+#       ctags --recurse --tag-relative \
+#         --languages=-javascript,sql \
+#         --exclude=.git \
+#         --sort=yes --append \
+#         -f "${TAG_FILE}" \
+#         $rubydir/gems/*
+#     fi
+#   done
+#   echo
+#   echo "------ generated ctags for: ${RubyVersion} ------"
+#   cat "${TAG_FILE}" | wc
+#   echo "---------------------------------------------"
+#   echo
+# fi
