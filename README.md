@@ -11,14 +11,30 @@ My personal Dotfiles. My environment is designed for use in a linux (Ubuntu / mi
 * Docker
 * Docker Composer
 * Docker Machine
+* Fonts Package
 
-###Additional Software to install manually
+###Additional Software/Tools to install manually
 
 * Chrome
 * Gimp
 * Spotify
 * Slack
 * Whatsapp
+* Dank Mono Font
+* Station
+* Filezilla
+* Brave
+* VSCode
+* Sublime
+* Vagrant
+* Dropbox
+* Variety
+* Flameshot
+* Steam
+* Remmina
+* Mysql Workbench
+* Mongo Compass
+* x
 
 ## Installation:
 

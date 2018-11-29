@@ -129,9 +129,10 @@ main() {
     printf "${YELLOW}Found the configurations ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
   else
     build_dotfiles
+    (zsh && pyenv install 2.7.13)
     (zsh && pyenv install 3.6.2 && pyenv global 3.6.2)
     (zsh && nvm install --lts=Dubnium && pyenv global 3.6.2)
-    (zsh && rbenv install 2.3.1 && rbenv global 2.3.1 && rbenv ctags )
+    (zsh && rbenv install 2.5.3 && rbenv global 2.5.3 && rbenv ctags )
     chsh -s `which zsh`
   fi
 
@@ -151,7 +152,7 @@ main() {
 }
 
 function build_rbenv {
-  printf "${YELLOW}Installing Rbenv and current default ruby 2.3.1... ${NORMAL}\n"
+  printf "${YELLOW}Installing Rbenv and current default ruby 2.5.3... ${NORMAL}\n"
 
   git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 
@@ -164,7 +165,8 @@ function build_rbenv {
 }
 
 function build_pyenv {
-  printf "${YELLOW}Installing Pyenv and current python 3.6.2... ${NORMAL}\n"
+  printf "${YELLOW}Installing Pyenv and Old Python Stack 2.7.13... ${NORMAL}\n"
+  printf "${YELLOW}Installing Pyenv and Current Python 3.6.2... ${NORMAL}\n"
 
   curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
