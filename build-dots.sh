@@ -83,19 +83,19 @@ main() {
     git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
   fi
 
-  printf "${BLUE} Preparing to install Fonts...${NORMAL}\n"
-  if [ -d ~/system/nerd-fonts ]; then
-    printf "${YELLOW}Found ~/system/nerd-fonts ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
-  else
-    git clone https://github.com/ryanoasis/nerd-fonts ~/system/nerd-fonts
-    bash ~/system/nerd-fonts/install.sh
-  fi
-  if [ -d ~/system/fonts ]; then
-    printf "${YELLOW}Found ~/system/fonts ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
-  else
-    git clone https://github.com/powerline/fonts.git ~/system/fonts  --depth=1
-    bash ~/system/fonts/install.sh
-  fi
+  # printf "${BLUE} Preparing to install Fonts...${NORMAL}\n"
+  # if [ -d ~/system/nerd-fonts ]; then
+  #   printf "${YELLOW}Found ~/system/nerd-fonts ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
+  # else
+  #   git clone https://github.com/ryanoasis/nerd-fonts ~/system/nerd-fonts
+  #   bash ~/system/nerd-fonts/install.sh
+  # fi
+  # if [ -d ~/system/fonts ]; then
+  #   printf "${YELLOW}Found ~/system/fonts ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
+  # else
+  #   git clone https://github.com/powerline/fonts.git ~/system/fonts  --depth=1
+  #   bash ~/system/fonts/install.sh
+  # fi
 
   printf "${BLUE} Preparing to install Vim...${NORMAL}\n"
   if [ -d ~/system/vim ]; then
@@ -131,8 +131,8 @@ main() {
     build_dotfiles
     (zsh && pyenv install 2.7.13)
     (zsh && pyenv install 3.6.2 && pyenv global 3.6.2)
-    (zsh && nvm install --lts=Dubnium && pyenv global 3.6.2)
-    (zsh && rbenv install 2.5.3 && rbenv global 2.5.3 && rbenv ctags )
+    (zsh && nvm install --lts=dubnium && nvm alias default lts/dubnium)
+    (zsh && rbenv install 2.5.3 && rbenv global 2.5.3)
     chsh -s `which zsh`
   fi
 
@@ -187,7 +187,7 @@ function build_docker {
 
   printf "Installing Docker..."
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
   sudo apt update && sudo apt install -y docker-ce
   printf "done!\n"
 
