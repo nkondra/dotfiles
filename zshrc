@@ -137,9 +137,11 @@ export FZF_DEFAULT_COMMAND='ag --hidden -g  ""'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Make sure the capslock key is changed
-xmodmap ~/.Xmodmap
+# Removed in favor of option in the system settings
+#xmodmap ~/.Xmodmap
 
 
+# Include the NVM tool for managing different versions of Node
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

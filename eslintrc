@@ -15,7 +15,7 @@
   },
   "env": {
     "browser": true,
-    "node": true,
+    /* "node": true, */
     "jquery": true,
     "jest": true
   },
@@ -118,7 +118,6 @@
     ]
   },
   "plugins": [
-    "html",
     "prettier"
   ]
 }

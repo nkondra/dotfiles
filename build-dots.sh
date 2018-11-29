@@ -83,20 +83,19 @@ main() {
     git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
   fi
 
-  # printf "${BLUE} Preparing to install Fonts...${NORMAL}\n"
-  # if [ -d ~/system/nerd-fonts ]; then
-  #   printf "${YELLOW}Found ~/system/nerd-fonts ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
-  # else
-  #   git clone https://github.com/ryanoasis/nerd-fonts ~/system/nerd-fonts
-  #   bash ~/system/nerd-fonts/install.sh
-  # fi
-  # if [ -d ~/system/fonts ]; then
-  #   printf "${YELLOW}Found ~/system/fonts ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
-  # else
-  #   git clone https://github.com/ryanoasis/nerd-fonts ~/system/nerd-fonts
-  #   git clone https://github.com/powerline/fonts.git ~/system/fonts  --depth=1
-  #   bash ~/system/fonts/install.sh
-  # fi
+  printf "${BLUE} Preparing to install Fonts...${NORMAL}\n"
+  if [ -d ~/system/nerd-fonts ]; then
+    printf "${YELLOW}Found ~/system/nerd-fonts ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
+  else
+    git clone https://github.com/ryanoasis/nerd-fonts ~/system/nerd-fonts
+    bash ~/system/nerd-fonts/install.sh
+  fi
+  if [ -d ~/system/fonts ]; then
+    printf "${YELLOW}Found ~/system/fonts ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
+  else
+    git clone https://github.com/powerline/fonts.git ~/system/fonts  --depth=1
+    bash ~/system/fonts/install.sh
+  fi
 
   printf "${BLUE} Preparing to install Vim...${NORMAL}\n"
   if [ -d ~/system/vim ]; then
@@ -131,6 +130,7 @@ main() {
   else
     build_dotfiles
     (zsh && pyenv install 3.6.2 && pyenv global 3.6.2)
+    (zsh && nvm install --lts=Dubnium && pyenv global 3.6.2)
     (zsh && rbenv install 2.3.1 && rbenv global 2.3.1 && rbenv ctags )
     chsh -s `which zsh`
   fi
@@ -172,9 +172,9 @@ function build_pyenv {
 }
 
 function build_nodejs {
-  printf "${YELLOW}Installing Nodejs 8 ... ${NORMAL}\n"
+  printf "${YELLOW}Installing NVM ... ${NORMAL}\n"
 
-  curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
   (sudo apt update && sudo apt install -y nodejs)
 
   printf "${GREEN}Nodejs installed! ${NORMAL} \n"
