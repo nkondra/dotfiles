@@ -102,6 +102,8 @@ main() {
     printf "${YELLOW}Found ~/system/vim ${NORMAL} ${RED}Skipping this stage.${NORMAL}\n";
   else
     git clone https://github.com/vim/vim.git ~/system/vim
+    sudo ln -s /usr/include/lua5.3 /usr/include/lua
+    sudo ln -s /usr/lib/x86_64-linux-gnu/liblua5.3.so /usr/local/lib/liblua.so
     (cd ~/system/vim && ./configure --with-features=huge \
             --enable-multibyte \
             --enable-rubyinterp=yes \
@@ -245,6 +247,7 @@ function INSTALL_DEPS {
     libxslt1-dev \
     libffi-dev \
     apt-transport-https \
+    liblua5.3-dev \
     ca-certificates \
     make \
     cmake \
